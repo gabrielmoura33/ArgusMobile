@@ -26,12 +26,13 @@ export default function App() {
   return (
     <NavigationContainer>
       <AppProvider>
-        <StatusBar
-          barStyle="light-content"
-          backgroundColor={theme.colors.Primary}
-        />
-        <Routes />
-        <ThemeProvider theme={theme} />
+        <ThemeProvider theme={theme}>
+          <StatusBar
+            barStyle="light-content"
+            backgroundColor={theme.colors.primary}
+          />
+          <Routes />
+        </ThemeProvider>
       </AppProvider>
     </NavigationContainer>
   );

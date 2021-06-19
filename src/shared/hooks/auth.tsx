@@ -42,8 +42,8 @@ const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const [token, user] = await AsyncStorage.multiGet([
-        '@Argus:token',
-        '@Argus:user',
+        '@ArgusApp:token',
+        '@ArgusApp:user',
       ]);
 
       if (token[1] && user[1]) {
@@ -64,8 +64,8 @@ const AuthProvider: React.FC = ({ children }) => {
     const { token, user } = response.data;
 
     await AsyncStorage.multiSet([
-      ['@Argus:token', token],
-      ['@Argus:user', JSON.stringify(user)],
+      ['@ArgusApp:token', token],
+      ['@ArgusApp:user', JSON.stringify(user)],
     ]);
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setData({ token, user });

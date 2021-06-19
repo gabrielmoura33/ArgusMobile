@@ -9,12 +9,14 @@ import React, {
 
 interface AccessState {
   isFirstLaunch: boolean;
-  state: 'provider' | 'user';
+  state?: 'provider' | 'user';
 }
 interface AccessContextData {
   isFirstLaunch: boolean;
-  state: 'provider' | 'user';
+  state?: 'provider' | 'user';
   setFirstLaunchToken(): Promise<void>;
+  setChooseState(state: 'provider' | 'user'): Promise<void>;
+  reset: any;
 }
 
 const AccessContext = createContext<AccessContextData>({} as AccessContextData);
@@ -24,20 +26,44 @@ const AccessProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const firstAccessToken = await AsyncStorage.getItem(
-        '@Argus:FirstAccessToken',
+        `@ArgusApp:FirstAccessToken`,
       );
 
       setData({
         isFirstLaunch: !firstAccessToken,
-        state: firstAccessToken ? JSON.parse(firstAccessToken).state : false,
+        state: firstAccessToken
+          ? JSON.parse(firstAccessToken).state
+          : undefined,
       });
     }
     loadStoragedData();
   }, []);
 
   const setFirstLaunchToken = useCallback(async () => {
-    await AsyncStorage.setItem('@Argus:FirstAccessToken', 'true');
     setData({ isFirstLaunch: false, state: data.state });
+    await AsyncStorage.setItem(
+      '@ArgusApp:FirstAccessToken',
+      JSON.stringify(data),
+    );
+  }, [data]);
+
+  const setChooseState = useCallback(
+    async (state: 'provider' | 'user') => {
+      setData({ isFirstLaunch: false, state });
+      await AsyncStorage.setItem(
+        '@ArgusApp:FirstAccessToken',
+        JSON.stringify(data),
+      );
+    },
+    [data],
+  );
+
+  const reset = useCallback(async () => {
+    await AsyncStorage.clear();
+    setData({
+      isFirstLaunch: false,
+      state: undefined,
+    });
   }, []);
 
   return (
@@ -45,7 +71,9 @@ const AccessProvider: React.FC = ({ children }) => {
       value={{
         isFirstLaunch: data.isFirstLaunch,
         setFirstLaunchToken,
+        setChooseState,
         state: data.state,
+        reset,
       }}
     >
       {children}

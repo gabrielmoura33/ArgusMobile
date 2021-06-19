@@ -24,11 +24,11 @@ const Routes: React.FC = () => {
   }
 
   if (isFirstLaunch) {
-    <OnboardingRoutes />;
+    return <OnboardingRoutes />;
   }
 
   if (!state) {
-    <ChooseState />;
+    return <ChooseState />;
   }
 
   if (user) {
