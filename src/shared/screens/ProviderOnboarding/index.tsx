@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import React from 'react';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 import MountShowSVG from '../../../assets/illustrations/mount_show.svg';
-import { useAccess } from '../../hooks/access';
 import {
   Container,
   ContentContainer,
@@ -12,17 +12,15 @@ import {
   FooterButtonIcon,
 } from './styles';
 
-interface OnboardingProps {}
-
 function ProviderOnboarding() {
-  const { setFirstLaunchToken, isFirstLaunch } = useAccess();
+  const navigation = useNavigation();
 
-  function handleSetFirstLaunch() {
-    return setFirstLaunchToken();
+  function handleNextPage() {
+    return navigation.navigate('ChooseState');
   }
   return (
     <Container>
-      <MountShowSVG width={352} height={352} />
+      <MountShowSVG width={RFValue(352)} height={RFValue(250)} />
       <ContentContainer>
         <HeaderTitle>02.</HeaderTitle>
         <Content>
@@ -30,8 +28,8 @@ function ProviderOnboarding() {
           oportunidade de ser encontrado por milhares de usuários ao redor do
           país.
         </Content>
-        <FooterButton onPress={handleSetFirstLaunch}>
-          <FooterButtonIcon name="chevron-right" />
+        <FooterButton onPress={handleNextPage}>
+          <FooterButtonIcon name="chevron-right" size={34} />
         </FooterButton>
       </ContentContainer>
     </Container>

@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
-import { Text } from 'react-native';
+import React from 'react';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 import ArtistSVG from '../../../assets/illustrations/artists.svg';
 import { useAccess } from '../../hooks/access';
@@ -13,17 +13,15 @@ import {
   FooterButtonIcon,
 } from './styles';
 
-interface OnboardingProps {}
-
 function UserOnboarding() {
-  const { setFirstLaunchToken, isFirstLaunch } = useAccess();
+  const { setFirstLaunchToken } = useAccess();
   const navigation = useNavigation();
   function handleNext() {
     return navigation.navigate('ProviderOnboarding');
   }
   return (
     <Container>
-      <ArtistSVG width={352} height={352} />
+      <ArtistSVG width={RFValue(352)} height={RFValue(250)} />
       <ContentContainer>
         <HeaderTitle>01.</HeaderTitle>
         <Content>

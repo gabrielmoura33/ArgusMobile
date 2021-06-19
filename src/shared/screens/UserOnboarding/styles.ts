@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { BorderlessButton } from 'react-native-gesture-handler';
+import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
@@ -7,7 +7,7 @@ export const Container = styled.View`
   background-color: ${props => props.theme.colors.primary};
   flex: 1;
   align-items: center;
-  padding: 35px 0;
+  padding: ${RFValue(35)}px 0;
 `;
 
 export const ContentContainer = styled.View`
@@ -35,7 +35,7 @@ export const Content = styled.Text`
   margin-bottom: ${RFValue(60)}px;
 `;
 
-export const FooterButton = styled(BorderlessButton)`
+export const FooterButton = styled.TouchableOpacity`
   width: ${RFValue(60)}px;
   height: ${RFValue(60)}px;
   border-width: 1px;

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { ReactNode, useEffect } from 'react';
 import { Text } from 'react-native';
 
@@ -7,6 +8,9 @@ import { Container } from './styles';
 interface SignInProps {}
 
 function SignIn() {
+  useEffect(() => {
+    AsyncStorage.clear();
+  }, []);
   return (
     <Container>
       <Text>USER SignIn</Text>

@@ -2,7 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
 import theme from '../../global/styles/theme';
-import { ProviderOnboarding } from '../screens/ProviderOnboarding';
+import ChooseState from '../screens/ChooseState';
 import { UserOnboarding } from '../screens/UserOnboarding';
 
 const OnboardingStack = createStackNavigator();
@@ -15,10 +15,8 @@ const OnboardingRoutes: React.FC = () => (
     }}
   >
     <OnboardingStack.Screen name="UserOnboarding" component={UserOnboarding} />
-    <OnboardingStack.Screen
-      name="ProviderOnboarding"
-      component={ProviderOnboarding}
-    />
+
+    <OnboardingStack.Screen name="ChooseState" component={ChooseState} />
   </OnboardingStack.Navigator>
 );
 

@@ -1,15 +1,15 @@
 import React, { ReactNode } from 'react';
-import { Text } from 'react-native';
+import { RectButtonProps } from 'react-native-gesture-handler';
 
 import { Container, Title } from './styles';
 
-interface ActionButtonProps {
+interface ActionButtonProps extends RectButtonProps {
   children: ReactNode;
 }
 
-function ActionButton({ children }: ActionButtonProps) {
+function ActionButton({ children, ...rest }: ActionButtonProps) {
   return (
-    <Container>
+    <Container {...rest}>
       <Title>{children}</Title>
     </Container>
   );

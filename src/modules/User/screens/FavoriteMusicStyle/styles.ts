@@ -21,7 +21,7 @@ export const Title = styled.Text`
   color: ${({ theme }) => theme.colors.Neutral100};
 `;
 
-export const UserIdentificationContainer = styled.View`
+export const FavoriteMusicStyleContainer = styled.View`
   width: 100%;
   padding: 15% 10%;
   flex-direction: column;

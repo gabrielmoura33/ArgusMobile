@@ -9,7 +9,7 @@ const UserRoutes: React.FC = () => (
   <User.Navigator
     screenOptions={{
       headerShown: false,
-      cardStyle: { backgroundColor: theme.colors.Primary },
+      cardStyle: { backgroundColor: theme.colors.primary },
     }}
     initialRouteName="Sign"
   >

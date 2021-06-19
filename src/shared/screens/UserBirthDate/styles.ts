@@ -27,5 +27,5 @@ export const UserIdentificationContainer = styled.View`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 33%;
+  height: 70%;
 `;
