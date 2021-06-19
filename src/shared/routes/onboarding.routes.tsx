@@ -14,7 +14,7 @@ const OnboardingRoutes: React.FC = () => (
       cardStyle: { backgroundColor: theme.colors.primary },
     }}
   >
-    {/* <OnboardingStack.Screen name="UserOnboarding" component={UserOnboarding} /> */}
+    <OnboardingStack.Screen name="UserOnboarding" component={UserOnboarding} />
     <OnboardingStack.Screen
       name="ProviderOnboarding"
       component={ProviderOnboarding}

@@ -12,7 +12,8 @@ export const Container = styled.View`
 export const ContentContainer = styled.View`
   width: 100%;
   height: 100%;
-  background-color: ${props => props.theme.colors.DarkBackgroundLighter};
+
+  background-color: ${props => props.theme.colors.Secondary};
   padding: 7%;
 `;
 

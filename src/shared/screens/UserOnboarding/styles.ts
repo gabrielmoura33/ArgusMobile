@@ -6,14 +6,14 @@ export const Container = styled.View`
   background-color: ${props => props.theme.colors.primary};
   flex: 1;
   align-items: center;
-  padding: 25px 0;
+  padding: 35px 0;
 `;
 
 export const ContentContainer = styled.View`
   width: 100%;
   height: 100%;
-  background-color: ${props => props.theme.colors.DarkBackgroundLighter};
-  padding: 7%;
+  background-color: ${props => props.theme.colors.Secondary};
+  padding: 8%;
 `;
 
 export const HeaderTitle = styled.Text`

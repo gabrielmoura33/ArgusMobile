@@ -17,6 +17,9 @@ interface OnboardingProps {}
 function ProviderOnboarding() {
   const { setFirstLaunchToken, isFirstLaunch } = useAccess();
 
+  function handleSetFirstLaunch() {
+    return setFirstLaunchToken();
+  }
   return (
     <Container>
       <MountShowSVG width={352} height={352} />
@@ -27,7 +30,7 @@ function ProviderOnboarding() {
           oportunidade de ser encontrado por milhares de usuários ao redor do
           país.
         </Content>
-        <FooterButton>
+        <FooterButton onPress={handleSetFirstLaunch}>
           <FooterButtonIcon name="chevron-right" />
         </FooterButton>
       </ContentContainer>

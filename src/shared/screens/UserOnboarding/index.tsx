@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { Text } from 'react-native';
 
@@ -16,7 +17,10 @@ interface OnboardingProps {}
 
 function UserOnboarding() {
   const { setFirstLaunchToken, isFirstLaunch } = useAccess();
-
+  const navigation = useNavigation();
+  function handleNext() {
+    return navigation.navigate('ProviderOnboarding');
+  }
   return (
     <Container>
       <ArtistSVG width={352} height={352} />
@@ -27,7 +31,7 @@ function UserOnboarding() {
           próximo possível. Não mais perca a chance de marcar aquela
           apresentação que você sempre sonhou
         </Content>
-        <FooterButton>
+        <FooterButton onPress={handleNext}>
           <FooterButtonIcon name="chevron-right" />
         </FooterButton>
       </ContentContainer>
