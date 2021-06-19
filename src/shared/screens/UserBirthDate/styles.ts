@@ -21,9 +21,11 @@ export const Title = styled.Text`
   color: ${({ theme }) => theme.colors.Neutral100};
 `;
 
-export const ChooseStateContainer = styled.View`
-  padding: 20% 10%;
-  flex-direction: row;
-
+export const UserIdentificationContainer = styled.View`
+  width: 100%;
+  padding: 15% 10%;
+  flex-direction: column;
+  align-items: center;
   justify-content: space-between;
+  height: 33%;
 `;

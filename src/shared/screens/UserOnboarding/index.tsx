@@ -32,7 +32,7 @@ function UserOnboarding() {
           apresentação que você sempre sonhou
         </Content>
         <FooterButton onPress={handleNext}>
-          <FooterButtonIcon name="chevron-right" />
+          <FooterButtonIcon name="chevron-right" size={34} />
         </FooterButton>
       </ContentContainer>
     </Container>

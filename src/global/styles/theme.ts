@@ -7,7 +7,13 @@ export default {
     DarkBackgroundLighter: 'rgba(0, 0, 0, 0.92)',
 
     Neutral100: '#FFFFFF',
+    Neutral700: '#cfcfcf',
     FacebookBlue: '#3B5998',
     GoogleRed: '#DB4437',
+  },
+  fonts: {
+    RobotoRegular: 'Roboto_400Regular',
+    RobotoMedium: 'Roboto_500Medium',
+    RobotoBold: 'Roboto_700Bold',
   },
 };
