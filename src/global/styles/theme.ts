@@ -15,5 +15,8 @@ export default {
     RobotoRegular: 'Roboto_400Regular',
     RobotoMedium: 'Roboto_500Medium',
     RobotoBold: 'Roboto_700Bold',
+    GothicA1: 'GothicA1',
+    GothamBook: 'GothamBook',
+    GothamBold: 'GothamBold',
   },
 };
