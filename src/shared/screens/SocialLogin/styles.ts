@@ -34,5 +34,8 @@ export const SignLaterWrapper = styled.TouchableOpacity`
   margin-bottom: 10%;
 `;
 export const SignLaterLabel = styled.Text`
-  color: #fff;
+  color: ${({ theme }) => theme.colors.Neutral100};
+  font-size: ${RFValue(14)}px;
+  line-height: ${RFValue(24)}px;
+  font-family: ${({ theme }) => theme.fonts.RobotoBold};
 `;
