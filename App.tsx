@@ -7,10 +7,11 @@ import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 
 import theme from './src/global/styles/theme';
+import UserBottomTabNavigator from './src/modules/User/routes/navigation/user_tabnavigator';
+import UserRoutes from './src/modules/User/routes/user.routes';
 import { AppProvider } from './src/shared/hooks';
 import Routes from './src/shared/routes';
-import OnboardingRoutes from './src/shared/routes/onboarding.routes';
-import { UserOnboarding } from './src/shared/screens/UserOnboarding';
+import NoConnection from './src/shared/screens/NoConnection';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -20,6 +21,7 @@ const fetchFonts = () => {
     Roboto_700Bold: require('./src/assets/fonts/Roboto/Roboto-Bold.ttf'),
     Roboto_500Medium: require('./src/assets/fonts/Roboto/Roboto-Medium.ttf'),
     Roboto_400Regular: require('./src/assets/fonts/Roboto/Roboto-Regular.ttf'),
+    RobotoSlab_Medium: require('./src/assets/fonts/Roboto/RobotoSlab-Medium.ttf'),
   });
 };
 export default function App() {
@@ -43,7 +45,7 @@ export default function App() {
             barStyle="light-content"
             backgroundColor={theme.colors.Secondary}
           />
-          <OnboardingRoutes />
+          <NoConnection />
         </ThemeProvider>
       </AppProvider>
     </NavigationContainer>

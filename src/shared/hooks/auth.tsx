@@ -17,6 +17,7 @@ interface User {
   isProvider: boolean;
   address: Address;
   signed?: boolean;
+  birth_date?: Date;
 }
 interface Address {
   city: string;
@@ -38,7 +39,10 @@ interface AuthContextData {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState<AuthState>({} as AuthState);
+  const [data, setData] = useState<AuthState>({
+    user: {},
+    token: '',
+  } as AuthState);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {

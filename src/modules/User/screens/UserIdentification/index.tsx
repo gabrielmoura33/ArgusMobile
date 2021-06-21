@@ -1,16 +1,24 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
+import React, { useState } from 'react';
 
 import theme from '../../../../global/styles/theme';
 import ActionButton from '../../../../shared/components/ActionButton';
+import { useAuth } from '../../../../shared/hooks/auth';
 import IdentificationInput from './components/IdentificationInput';
 import { UserIdentificationContainer, Container, Logo, Title } from './styles';
 
 function UserIdentification() {
+  const { user } = useAuth();
   const navigator = useNavigation();
+  const [name, setName] = useState('');
 
   function handleNextScreen() {
     return navigator.navigate('UserBirthDate');
+  }
+
+  function handleSubmitName() {
+    user.name = name;
+    handleNextScreen();
   }
   return (
     <Container>
@@ -20,8 +28,9 @@ function UserIdentification() {
         <IdentificationInput
           placeholder="Digite seu nome"
           placeholderTextColor={theme.colors.Neutral100}
+          onChangeText={setName}
         />
-        <ActionButton onPress={handleNextScreen}>Confirmar</ActionButton>
+        <ActionButton onPress={handleSubmitName}>Confirmar</ActionButton>
       </UserIdentificationContainer>
     </Container>
   );

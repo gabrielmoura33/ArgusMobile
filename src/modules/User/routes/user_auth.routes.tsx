@@ -3,6 +3,7 @@ import React from 'react';
 
 import theme from '../../../global/styles/theme';
 import ChooseState from '../../../shared/screens/ChooseState';
+import SocialLogin from '../../../shared/screens/SocialLogin';
 import UserBirthDate from '../../../shared/screens/UserBirthDate';
 import FavoriteMusicStyle from '../screens/FavoriteMusicStyle';
 import SignIn from '../screens/SignIn';
@@ -20,9 +21,9 @@ const UserAuthRoutes: React.FC = () => (
     initialRouteName="UserBirthDate"
   >
     <UserAuth.Screen name="ChooseState" component={ChooseState} />
-    <UserAuth.Screen name="FavoriteMusicStyle" component={FavoriteMusicStyle} />
-    <UserAuth.Screen name="UserBirthDate" component={UserBirthDate} />
-    <UserAuth.Screen name="UserIdentification" component={UserIdentification} />
+
+    <UserAuth.Screen name="SocialLogin" component={SocialLogin} />
+
     <UserAuth.Screen name="SignIn" component={SignIn} />
     <UserAuth.Screen name="SignUp" component={SignUp} />
   </UserAuth.Navigator>

@@ -5,9 +5,11 @@ import { Alert, Platform } from 'react-native';
 
 import ActionButton from '../../components/ActionButton';
 import DatetimePickerComponent from '../../components/DatetimePicker';
+import { useAuth } from '../../hooks/auth';
 import { UserIdentificationContainer, Container, Logo, Title } from './styles';
 
 function UserBirthDate() {
+  const { user } = useAuth();
   const [selectedDateTime, setSelectedDateTime] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
 
@@ -20,7 +22,17 @@ function UserBirthDate() {
   function handleChangeTime(event: Event, dateTime: Date | undefined) {
     if (Platform.OS === 'android') setShowDatePicker(oldState => !oldState);
 
-    if (dateTime && isAfter(dateTime, new Date())) {
+    if (dateTime) setSelectedDateTime(dateTime);
+  }
+
+  function handleOpenDatetimePickerForAndroid() {
+    setShowDatePicker(oldState => !oldState);
+  }
+
+  function handleSubmitBirthDate() {
+    user.birth_date = selectedDateTime;
+
+    if (selectedDateTime && isAfter(selectedDateTime, new Date())) {
       Alert.alert(
         'Data inválida',
         'Favor escolher uma data anterior a data atual.',
@@ -28,11 +40,7 @@ function UserBirthDate() {
       return;
     }
 
-    if (dateTime) setSelectedDateTime(dateTime);
-  }
-
-  function handleOpenDatetimePickerForAndroid() {
-    setShowDatePicker(oldState => !oldState);
+    handleNextScreen();
   }
   return (
     <Container>
@@ -47,7 +55,7 @@ function UserBirthDate() {
           }
           showDatePicker={showDatePicker}
         />
-        <ActionButton onPress={handleNextScreen}>Confirmar</ActionButton>
+        <ActionButton onPress={handleSubmitBirthDate}>Confirmar</ActionButton>
       </UserIdentificationContainer>
     </Container>
   );

@@ -1,8 +1,9 @@
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Platform } from 'react-native';
 
+import { useAuth } from '../../hooks/auth';
 import { Container, DateTimePickerButton, DateTimePickerText } from './styles';
 
 interface DatetimePickerComponentProps {
@@ -11,12 +12,25 @@ interface DatetimePickerComponentProps {
   handleOpenDatetimePickerForAndroid(): void;
   showDatePicker: boolean;
 }
+
 function DatetimePickerComponent({
   selectedDateTime,
   handleChangeTime,
   handleOpenDatetimePickerForAndroid,
   showDatePicker,
 }: DatetimePickerComponentProps) {
+  const [textColor, setTextColor] = useState('black');
+
+  const iOsColorFix = () => {
+    setTimeout(() => {
+      setTextColor(prevState => (prevState === 'green' ? 'black' : 'white')); // It is important to change the textColor state on some different value
+    }, 0);
+  };
+
+  useEffect(() => {
+    iOsColorFix();
+  }, []);
+
   return (
     <Container>
       {showDatePicker && (
@@ -24,8 +38,10 @@ function DatetimePickerComponent({
           value={selectedDateTime}
           mode="date"
           display="spinner"
-          textColor="#FFF"
+          textColor={textColor}
           onChange={handleChangeTime}
+          themeVariant="light"
+          locale="pt-Br"
         />
       )}
       {Platform.OS === 'android' && (

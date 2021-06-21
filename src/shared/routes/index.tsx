@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNetInfo } from '@react-native-community/netinfo';
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -10,12 +11,14 @@ import { UserAuthRoutes } from '../../modules/User/routes/user_auth.routes';
 import { useAccess } from '../hooks/access';
 import { useAuth } from '../hooks/auth';
 import ChooseState from '../screens/ChooseState';
+import NoConnection from '../screens/NoConnection';
 import { UserOnboarding } from '../screens/UserOnboarding';
 import OnboardingRoutes from './onboarding.routes';
 
 const Routes: React.FC = () => {
   const { user, loading } = useAuth();
   const { isFirstLaunch, state } = useAccess();
+  const netInfo = useNetInfo();
 
   if (loading) {
     return (
@@ -24,6 +27,8 @@ const Routes: React.FC = () => {
       </View>
     );
   }
+
+  if (netInfo.isConnected === true) return <NoConnection />;
 
   if (isFirstLaunch) {
     return <OnboardingRoutes />;

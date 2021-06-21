@@ -21,8 +21,16 @@ function SocialLoginButton({ type, svg: Svg }: SocialLoginButtonProps) {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [visible, _] = useState(type !== 'APPLE' || Platform.OS !== 'android');
 
+  async function handleSelectSocialMediaAuth() {
+    console.log('ahsbdjha');
+  }
+
   return (
-    <Container visible={visible} color={containerColors[type]}>
+    <Container
+      visible={visible}
+      color={containerColors[type]}
+      onPress={handleSelectSocialMediaAuth}
+    >
       <Svg width={40} height={40} />
     </Container>
   );

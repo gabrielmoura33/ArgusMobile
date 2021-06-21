@@ -16,5 +16,5 @@ export const DateTimePickerText = styled.Text`
   color: ${({ theme }) => theme.colors.Neutral700};
   opacity: 0.5;
   text-align: center;
-  font-family: ${({ theme }) => theme.fonts.RobotoBold};
+  font-family: ${({ theme }) => theme.fonts.RobotoRegular};
 `;

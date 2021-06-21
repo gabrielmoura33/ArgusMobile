@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Platform } from 'react-native';
 
 import AppleIcon from '../../../assets/icons/apple-icon.svg';
 import FacebookIcon from '../../../assets/icons/facebook-icon.svg';
 import GoogleIcon from '../../../assets/icons/google-icon.svg';
 import MailIcon from '../../../assets/icons/mail-icon.svg';
+import { useAuth } from '../../hooks/auth';
 import SocialLoginButton from './components/SocialLoginButton';
 import {
   Container,
@@ -26,6 +27,10 @@ const buttonIcon = {
   LOGIN: MailIcon,
 };
 function SocialLogin() {
+  const { user } = useAuth();
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
   return (
     <Container>
       <Logo width={82} height={85} />

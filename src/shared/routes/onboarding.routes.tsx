@@ -1,4 +1,7 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 import React from 'react';
 
 import theme from '../../global/styles/theme';
@@ -12,11 +15,17 @@ import { UserOnboarding } from '../screens/UserOnboarding';
 
 const OnboardingStack = createStackNavigator();
 
+// const forFade = ({ current }: any) => ({
+//   cardStyle: {
+//     opacity: current.progress,
+//   },
+// });
 const OnboardingRoutes: React.FC = () => (
   <OnboardingStack.Navigator
     screenOptions={{
       headerShown: false,
-      cardStyle: { backgroundColor: theme.colors.primary },
+      cardStyle: { backgroundColor: theme.colors.Secondary },
+      cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
     }}
   >
     <OnboardingStack.Screen name="UserOnboarding" component={UserOnboarding} />
