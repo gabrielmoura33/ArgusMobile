@@ -1,21 +1,22 @@
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker';
 import { format } from 'date-fns';
-import React, { useState } from 'react';
+import React from 'react';
 import { Platform } from 'react-native';
 
 import { Container, DateTimePickerButton, DateTimePickerText } from './styles';
 
-function DatetimePickerComponent() {
-  const [selectedDateTime, setSelectedDateTime] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(Platform.OS === 'ios');
-  function handleChangeTime(event: Event, dateTime: Date | undefined) {
-    if (Platform.OS === 'android') setShowDatePicker(oldState => !oldState);
-
-    if (dateTime) setSelectedDateTime(dateTime);
-  }
-  function handleOpenDatetimePickerForAndroid() {
-    setShowDatePicker(oldState => !oldState);
-  }
+interface DatetimePickerComponentProps {
+  selectedDateTime: Date;
+  handleChangeTime(event: Event, dateTime: Date | undefined): void;
+  handleOpenDatetimePickerForAndroid(): void;
+  showDatePicker: boolean;
+}
+function DatetimePickerComponent({
+  selectedDateTime,
+  handleChangeTime,
+  handleOpenDatetimePickerForAndroid,
+  showDatePicker,
+}: DatetimePickerComponentProps) {
   return (
     <Container>
       {showDatePicker && (

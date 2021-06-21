@@ -28,34 +28,32 @@ const AccessProvider: React.FC = ({ children }) => {
       const firstAccessToken = await AsyncStorage.getItem(
         `@ArgusApp:FirstAccessToken`,
       );
-
+      const stateAccess = await AsyncStorage.getItem(`@ArgusApp:AppState`);
+      // console.log(!!firstAccessToken);
       setData({
-        isFirstLaunch: !firstAccessToken,
-        state: firstAccessToken
-          ? JSON.parse(firstAccessToken).state
-          : undefined,
+        isFirstLaunch: true,
+        state: (stateAccess as 'user' | 'provider') || undefined,
       });
     }
     loadStoragedData();
   }, []);
 
   const setFirstLaunchToken = useCallback(async () => {
-    setData({ isFirstLaunch: false, state: data.state });
     await AsyncStorage.setItem(
       '@ArgusApp:FirstAccessToken',
-      JSON.stringify(data),
+      String(data.isFirstLaunch),
     );
-  }, [data]);
+  }, [data.isFirstLaunch]);
 
   const setChooseState = useCallback(
     async (state: 'provider' | 'user') => {
-      setData({ isFirstLaunch: false, state });
-      await AsyncStorage.setItem(
-        '@ArgusApp:FirstAccessToken',
-        JSON.stringify(data),
-      );
+      setData({
+        isFirstLaunch: data.isFirstLaunch,
+        state,
+      });
+      await AsyncStorage.setItem('@ArgusApp:AppState', state);
     },
-    [data],
+    [data.isFirstLaunch],
   );
 
   const reset = useCallback(async () => {

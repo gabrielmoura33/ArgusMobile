@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 
 import theme from '../../../../global/styles/theme';
@@ -8,10 +9,13 @@ import { FavoriteMusicStyleContainer, Container, Logo, Title } from './styles';
 
 function FavoriteMusicStyle() {
   const { setFirstLaunchToken } = useAccess();
+  const navigator = useNavigation();
 
-  function handleSetFirstLaunch() {
-    return setFirstLaunchToken();
+  async function handleNextScreen() {
+    await setFirstLaunchToken();
+    return navigator.navigate('SocialLogin');
   }
+
   return (
     <Container>
       <Logo width={82} height={85} />
@@ -21,7 +25,7 @@ function FavoriteMusicStyle() {
           placeholder="Digite um estilo"
           placeholderTextColor={theme.colors.Neutral100}
         />
-        <ActionButton onPress={handleSetFirstLaunch}>Confirmar</ActionButton>
+        <ActionButton onPress={handleNextScreen}>Confirmar</ActionButton>
       </FavoriteMusicStyleContainer>
     </Container>
   );

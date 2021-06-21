@@ -16,6 +16,7 @@ interface User {
   avatar: string;
   isProvider: boolean;
   address: Address;
+  signed?: boolean;
 }
 interface Address {
   city: string;
@@ -68,7 +69,7 @@ const AuthProvider: React.FC = ({ children }) => {
       ['@ArgusApp:user', JSON.stringify(user)],
     ]);
     api.defaults.headers.Authorization = `Bearer ${token}`;
-    setData({ token, user });
+    setData({ token, user: { ...user, signed: true } });
   }, []);
 
   const signOut = useCallback(async () => {

@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 
 import ipodSvg from '../../../assets/icons/ipod.svg';
@@ -7,13 +8,13 @@ import ChooseStateButton from './components/ChooseStateButton';
 import { ChooseStateContainer, Container, Logo, Title } from './styles';
 
 function ChooseState() {
-  const { setChooseState } = useAccess();
-
-  useEffect(() => {
-    AsyncStorage.clear();
-  }, []);
+  const { setChooseState, isFirstLaunch } = useAccess();
+  const navigator = useNavigation();
   function handleChooseState(state: 'provider' | 'user') {
     setChooseState(state);
+    if (isFirstLaunch) return navigator.navigate('UserIdentification');
+
+    return navigator.navigate('SocialLogin');
   }
   return (
     <Container>

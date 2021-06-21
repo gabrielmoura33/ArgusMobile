@@ -20,7 +20,7 @@ function ProviderOnboarding() {
   }
   return (
     <Container>
-      <MountShowSVG width={RFValue(352)} height={RFValue(250)} />
+      <MountShowSVG width={RFValue(352)} height={RFValue(280)} />
       <ContentContainer>
         <HeaderTitle>02.</HeaderTitle>
         <Content>

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import { ActivityIndicator, View } from 'react-native';
 
@@ -9,6 +10,7 @@ import { UserAuthRoutes } from '../../modules/User/routes/user_auth.routes';
 import { useAccess } from '../hooks/access';
 import { useAuth } from '../hooks/auth';
 import ChooseState from '../screens/ChooseState';
+import { UserOnboarding } from '../screens/UserOnboarding';
 import OnboardingRoutes from './onboarding.routes';
 
 const Routes: React.FC = () => {
@@ -27,11 +29,7 @@ const Routes: React.FC = () => {
     return <OnboardingRoutes />;
   }
 
-  if (!state) {
-    return <ChooseState />;
-  }
-
-  if (user) {
+  if (user && user.signed) {
     switch (user.isProvider) {
       case true:
         return <ProviderRoutes />;

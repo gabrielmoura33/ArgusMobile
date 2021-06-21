@@ -1,9 +1,8 @@
 import { Feather } from '@expo/vector-icons';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.SafeAreaView`
   background-color: ${props => props.theme.colors.primary};
   flex: 1;
   align-items: center;

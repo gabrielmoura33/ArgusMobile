@@ -14,14 +14,14 @@ import {
 } from './styles';
 
 function UserOnboarding() {
-  const { setFirstLaunchToken } = useAccess();
+  const { setFirstLaunchToken, isFirstLaunch } = useAccess();
   const navigation = useNavigation();
   function handleNext() {
     return navigation.navigate('ProviderOnboarding');
   }
   return (
     <Container>
-      <ArtistSVG width={RFValue(352)} height={RFValue(250)} />
+      <ArtistSVG width={RFValue(352)} height={RFValue(280)} />
       <ContentContainer>
         <HeaderTitle>01.</HeaderTitle>
         <Content>

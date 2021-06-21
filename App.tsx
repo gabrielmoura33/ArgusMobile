@@ -9,6 +9,8 @@ import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
 import { AppProvider } from './src/shared/hooks';
 import Routes from './src/shared/routes';
+import OnboardingRoutes from './src/shared/routes/onboarding.routes';
+import { UserOnboarding } from './src/shared/screens/UserOnboarding';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -41,7 +43,7 @@ export default function App() {
             barStyle="light-content"
             backgroundColor={theme.colors.Secondary}
           />
-          <Routes />
+          <OnboardingRoutes />
         </ThemeProvider>
       </AppProvider>
     </NavigationContainer>
