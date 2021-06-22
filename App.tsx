@@ -11,7 +11,6 @@ import UserBottomTabNavigator from './src/modules/User/routes/navigation/user_ta
 import UserRoutes from './src/modules/User/routes/user.routes';
 import { AppProvider } from './src/shared/hooks';
 import Routes from './src/shared/routes';
-import NoConnection from './src/shared/screens/NoConnection';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -45,7 +44,7 @@ export default function App() {
             barStyle="light-content"
             backgroundColor={theme.colors.Secondary}
           />
-          <NoConnection />
+          <UserBottomTabNavigator />
         </ThemeProvider>
       </AppProvider>
     </NavigationContainer>

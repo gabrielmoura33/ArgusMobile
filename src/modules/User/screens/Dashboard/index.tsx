@@ -2,7 +2,9 @@ import React from 'react';
 import { View, RefreshControl } from 'react-native';
 
 import fabiUserAvatar from '../../../../assets/IMG_0384.jpeg';
-import ProviderCard from '../../components/ProviderCard';
+import ArgusProviderCard from '../../components/ArgusProviderCard';
+import CategoryComponent from '../../components/CategoryComponent';
+import RelatedProviderCard from '../../components/RelatedProviderCard';
 import {
   Container,
   Header,
@@ -15,27 +17,18 @@ import {
   Label,
   SeeMoreLabel,
   CategoryList,
-  CategoryBackgroundWrapper,
-  CategoryBackground,
-  CategoryComponentLabel,
-  ProviderList,
-  ProviderCardWrapper,
+  ArgusProviderList,
+  ArgusProviderCardWrapper,
+  RelatedProviderList,
+  RelatedProviderCardWrapper,
 } from './styles';
 import { categoryList } from './utils/categoryList';
 
 const userlist = [1, 2, 3, 4, 5];
-function CategoryComponet({ name, source }: any) {
-  return (
-    <CategoryBackgroundWrapper>
-      <CategoryBackground source={source}>
-        <CategoryComponentLabel>{name}</CategoryComponentLabel>
-      </CategoryBackground>
-    </CategoryBackgroundWrapper>
-  );
-}
+
 function Dashboard() {
   return (
-    <Container>
+    <Container showsVerticalScrollIndicator={false}>
       <Header>
         <Avatar source={fabiUserAvatar} />
         <UserInfoWrapper>
@@ -52,7 +45,7 @@ function Dashboard() {
         data={categoryList}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <CategoryComponet name={item.name} source={item.image} />
+          <CategoryComponent name={item.name} source={item.image} />
         )}
         showsHorizontalScrollIndicator={false}
         horizontal
@@ -61,16 +54,31 @@ function Dashboard() {
         <Label size="medium">Artistas Argus</Label>
         <SeeMoreLabel>Veja mais</SeeMoreLabel>
       </LabelWrapper>
-      <ProviderList
+      <ArgusProviderList
         data={userlist}
         keyExtractor={item => item}
         renderItem={() => (
-          <ProviderCardWrapper>
-            <ProviderCard />
-          </ProviderCardWrapper>
+          <ArgusProviderCardWrapper>
+            <ArgusProviderCard />
+          </ArgusProviderCardWrapper>
         )}
         showsHorizontalScrollIndicator={false}
         horizontal
+      />
+      <LabelWrapper>
+        <Label size="medium">Artistas Relacionados</Label>
+        <SeeMoreLabel>Veja mais</SeeMoreLabel>
+      </LabelWrapper>
+      <RelatedProviderList
+        data={userlist}
+        keyExtractor={item => item}
+        contentContainerStyle={{ marginBottom: 100 }}
+        renderItem={() => (
+          <RelatedProviderCardWrapper>
+            <RelatedProviderCard />
+          </RelatedProviderCardWrapper>
+        )}
+        showsVerticalScrollIndicator={false}
       />
     </Container>
   );

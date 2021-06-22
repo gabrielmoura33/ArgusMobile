@@ -17,7 +17,7 @@ import {
 
 // interface ProviderCardProps {}
 
-function ProviderCard() {
+function ArgusProviderCard() {
   return (
     <Container>
       <ProviderAvatar source={providerSrc} />
@@ -36,4 +36,4 @@ function ProviderCard() {
   );
 }
 
-export default ProviderCard;
+export default ArgusProviderCard;

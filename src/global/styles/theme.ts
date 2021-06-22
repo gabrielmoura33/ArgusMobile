@@ -7,10 +7,11 @@ export default {
     DarkBackgroundLighter: 'rgba(0, 0, 0, 0.92)',
 
     Neutral100: '#FFFFFF',
-
+    Neutral400: '#999591',
     Neutral500: '#C7C7C7',
     Neutral600: '#F1E9E9',
     Neutral700: '#cfcfcf',
+
     FacebookBlue: '#3B5998',
     GoogleRed: '#DB4437',
 

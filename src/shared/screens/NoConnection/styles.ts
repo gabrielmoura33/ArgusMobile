@@ -17,6 +17,7 @@ export const Wifi = styled.View`
 
 export const WifiIcon = styled(Feather)`
   margin-bottom: 20px;
+  opacity: 0.9;
 `;
 
 export const WifiText = styled.Text`
@@ -26,6 +27,7 @@ export const WifiText = styled.Text`
   text-align: center;
   padding: 10px 15px;
   font-family: ${({ theme }) => theme.fonts.RobotoBold};
+  opacity: 0.9;
 `;
 
 export const WifiTextSmall = styled.Text`

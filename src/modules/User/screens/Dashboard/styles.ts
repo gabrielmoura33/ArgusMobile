@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 import SearchSVG from '../../../../assets/icons/big_search.svg';
 
 export const Container = styled.ScrollView`
-  padding: ${RFPercentage(2)}% ${RFValue(28.4)}px;
+  padding: ${RFPercentage(2)}% ${RFValue(20.4)}px;
 `;
 
 export const Header = styled.View`
@@ -67,27 +67,19 @@ export const SeeMoreLabel = styled.Text`
 
 export const CategoryList = styled(FlatList)``;
 
-export const CategoryBackgroundWrapper = styled.TouchableOpacity``;
-export const CategoryBackground = styled.ImageBackground`
-  margin-top: ${RFValue(19)}px;
-  width: ${RFValue(165)}px;
-  height: ${RFValue(137)}px;
-  margin-right: ${RFValue(10)}px;
-  justify-content: flex-end;
-  padding: 0 ${RFValue(10)}px ${RFValue(8)}px 0;
-`;
-export const CategoryComponentLabel = styled.Text`
-  align-self: flex-end;
-  font-family: ${({ theme }) => theme.fonts.RobotoSlabMedium};
-  font-size: ${RFValue(17)}px;
-  line-height: ${RFValue(22)}px;
-  color: rgba(255, 255, 255, 0.73);
-`;
-
-export const ProviderList = styled(FlatList)`
+export const ArgusProviderList = styled(FlatList)`
   margin-top: ${RFValue(20)}px;
 `;
 
-export const ProviderCardWrapper = styled.View`
+export const ArgusProviderCardWrapper = styled.View`
   padding-right: ${RFValue(29)}px;
+`;
+
+export const RelatedProviderList = styled(FlatList)`
+  margin-top: ${RFValue(20)}px;
+`;
+
+export const RelatedProviderCardWrapper = styled.View`
+  padding-bottom: ${RFValue(20)}px;
+  height: ${RFValue(160)}px;
 `;
