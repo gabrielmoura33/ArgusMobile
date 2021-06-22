@@ -1,4 +1,5 @@
-import React from 'react';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback } from 'react';
 import { View, RefreshControl } from 'react-native';
 
 import fabiUserAvatar from '../../../../assets/IMG_0384.jpeg';
@@ -10,6 +11,7 @@ import {
   Header,
   Avatar,
   UserInfoWrapper,
+  SearchButtonWrapper,
   UserWelcomeLabel,
   UserName,
   SearchIcon,
@@ -27,6 +29,10 @@ import { categoryList } from './utils/categoryList';
 const userlist = [1, 2, 3, 4, 5];
 
 function Dashboard() {
+  const navigation = useNavigation();
+  const handleNavigateSearch = useCallback(() => {
+    return navigation.navigate('SearchScreen');
+  }, [navigation]);
   return (
     <Container showsVerticalScrollIndicator={false}>
       <Header>
@@ -35,7 +41,9 @@ function Dashboard() {
           <UserWelcomeLabel>Bem vindo(a) de volta,</UserWelcomeLabel>
           <UserName>Fabiane Almeida Santos</UserName>
         </UserInfoWrapper>
-        <SearchIcon />
+        <SearchButtonWrapper onPress={handleNavigateSearch}>
+          <SearchIcon />
+        </SearchButtonWrapper>
       </Header>
       <LabelWrapper>
         <Label>Categorias</Label>

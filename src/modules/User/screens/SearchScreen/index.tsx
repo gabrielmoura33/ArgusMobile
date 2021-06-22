@@ -8,7 +8,7 @@ import { Container } from './styles';
 function SearchScreen() {
   return (
     <Container>
-      <Text>SearchScreen</Text>
+      <Text style={{ color: '#FFF' }}>SearchScreen</Text>
     </Container>
   );
 }

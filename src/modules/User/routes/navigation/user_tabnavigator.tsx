@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { RFValue } from 'react-native-responsive-fontsize';
@@ -10,6 +11,7 @@ import UserIcon from '../../../../assets/icons/user.svg';
 import theme from '../../../../global/styles/theme';
 import SearchScreen from '../../screens/SearchScreen';
 import MainStackNavigator from '../user.routes';
+import UserDrawerNavigator from './user_drawernavigator';
 
 const Tab = createBottomTabNavigator();
 
@@ -104,7 +106,7 @@ const UserBottomTabNavigator: React.FC = () => {
       />
       <Tab.Screen
         name="Profile"
-        component={SearchScreen}
+        component={UserDrawerNavigator}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             return (

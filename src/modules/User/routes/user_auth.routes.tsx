@@ -9,6 +9,7 @@ import FavoriteMusicStyle from '../screens/FavoriteMusicStyle';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
 import UserIdentification from '../screens/UserIdentification';
+import UserDrawerNavigator from './navigation/user_drawernavigator';
 
 const UserAuth = createStackNavigator();
 

@@ -1,4 +1,4 @@
-import { FlatList } from 'react-native-gesture-handler';
+import { FlatList, RectButton } from 'react-native-gesture-handler';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
@@ -23,6 +23,8 @@ export const UserInfoWrapper = styled.View`
   margin-left: 3%;
   width: 74%;
 `;
+
+export const SearchButtonWrapper = styled(RectButton)``;
 export const UserWelcomeLabel = styled.Text`
   font-family: ${({ theme }) => theme.fonts.RobotoBold};
   font-size: ${RFValue(16)}px;
