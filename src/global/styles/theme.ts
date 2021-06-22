@@ -7,6 +7,7 @@ export default {
     DarkBackgroundLighter: 'rgba(0, 0, 0, 0.92)',
 
     Neutral100: '#FFFFFF',
+    Neutral200: '#F4F4F8',
     Neutral400: '#999591',
     Neutral500: '#C7C7C7',
     Neutral600: '#F1E9E9',

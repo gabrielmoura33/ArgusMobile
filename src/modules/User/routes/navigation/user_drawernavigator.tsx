@@ -3,6 +3,9 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { RFValue } from 'react-native-responsive-fontsize';
 
+import ExploreIcon from '../../../../assets/icons/explore.svg';
+import GiftIcon from '../../../../assets/icons/gift.svg';
+import UserProfileIcon from '../../../../assets/icons/userprofile.svg';
 import theme from '../../../../global/styles/theme';
 import ProfileScreen from '../../screens/ProfileScreen';
 import SearchScreen from '../../screens/SearchScreen';
@@ -17,7 +20,6 @@ const UserDrawerNavigator: React.FC = () => {
       drawerStyle={{
         width: '100%',
         backgroundColor: theme.colors.Secondary,
-
         paddingTop: '30%',
       }}
       drawerContentOptions={{
@@ -25,23 +27,61 @@ const UserDrawerNavigator: React.FC = () => {
         activeTintColor: theme.colors.Neutral100,
         inactiveTintColor: theme.colors.Neutral100,
         itemStyle: {
-          borderBottomWidth: 0.3,
-          borderColor: '#F4F4F8',
-          padding: 2,
-          marginTop: 10,
-
-          width: '50%',
+          borderBottomWidth: 0.2,
+          borderColor: theme.colors.Neutral200,
+          borderRadius: 0,
+          marginTop: 5,
+          width: '60%',
         },
         labelStyle: {
           fontFamily: theme.fonts.RobotoBold,
           fontSize: RFValue(17),
-          // fontWeight: "bold"
+          paddingVertical: 5,
         },
       }}
     >
-      <Drawer.Screen name="Perfil" component={ProfileScreen} />
-      <Drawer.Screen name="Explorar" component={ProfileScreen} />
-      <Drawer.Screen name="Minha carteira" component={ProfileScreen} />
+      <Drawer.Screen
+        name="UserProfile"
+        component={ProfileScreen}
+        options={{
+          title: 'Perfil',
+          drawerIcon: ({ focused, size }) => (
+            <UserProfileIcon
+              width={size}
+              height={size}
+              color={focused ? '#7cc' : '#ccc'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="UserExplore"
+        component={ProfileScreen}
+        options={{
+          title: 'Explorar',
+          drawerIcon: ({ focused, size }) => (
+            <ExploreIcon
+              width={size}
+              height={size}
+              color={focused ? '#7cc' : '#ccc'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="UserWallet"
+        component={ProfileScreen}
+        options={{
+          title: 'Minha carteira',
+          drawerIcon: ({ focused, size }) => (
+            <GiftIcon
+              width={size}
+              height={size}
+              color={focused ? '#7cc' : '#ccc'}
+            />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 };

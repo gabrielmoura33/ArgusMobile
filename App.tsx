@@ -3,14 +3,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { StatusBar, View } from 'react-native';
+import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 
 import theme from './src/global/styles/theme';
 import UserBottomTabNavigator from './src/modules/User/routes/navigation/user_tabnavigator';
 import UserRoutes from './src/modules/User/routes/user.routes';
+import SkeletonDashboard from './src/modules/User/skeleton/SkeletonDashboard';
 import { AppProvider } from './src/shared/hooks';
 import Routes from './src/shared/routes';
+import Shrimer from './src/shared/screens/Shrimer';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -44,7 +46,6 @@ export default function App() {
             barStyle="light-content"
             backgroundColor={theme.colors.Secondary}
           />
-
           <UserBottomTabNavigator />
         </ThemeProvider>
       </AppProvider>

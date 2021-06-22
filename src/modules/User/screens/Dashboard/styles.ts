@@ -77,8 +77,9 @@ export const ArgusProviderCardWrapper = styled.View`
   padding-right: ${RFValue(29)}px;
 `;
 
-export const RelatedProviderList = styled(FlatList)`
+export const RelatedProviderList = styled.View`
   margin-top: ${RFValue(20)}px;
+  margin-bottom: 100px;
 `;
 
 export const RelatedProviderCardWrapper = styled.View`

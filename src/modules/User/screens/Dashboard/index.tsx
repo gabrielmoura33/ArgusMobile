@@ -1,11 +1,12 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, RefreshControl } from 'react-native';
 
 import fabiUserAvatar from '../../../../assets/IMG_0384.jpeg';
 import ArgusProviderCard from '../../components/ArgusProviderCard';
 import CategoryComponent from '../../components/CategoryComponent';
 import RelatedProviderCard from '../../components/RelatedProviderCard';
+import SkeletonDashboard from '../../skeleton/SkeletonDashboard';
 import {
   Container,
   Header,
@@ -29,10 +30,18 @@ import { categoryList } from './utils/categoryList';
 const userlist = [1, 2, 3, 4, 5];
 
 function Dashboard() {
+  const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   const handleNavigateSearch = useCallback(() => {
     return navigation.navigate('SearchScreen');
   }, [navigation]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }, []);
+  if (loading) return <SkeletonDashboard />;
   return (
     <Container showsVerticalScrollIndicator={false} nestedScrollEnabled>
       <Header>
@@ -77,17 +86,13 @@ function Dashboard() {
         <Label size="medium">Artistas Relacionados</Label>
         <SeeMoreLabel>Veja mais</SeeMoreLabel>
       </LabelWrapper>
-      <RelatedProviderList
-        data={userlist}
-        keyExtractor={item => item}
-        contentContainerStyle={{ marginBottom: 100 }}
-        renderItem={() => (
-          <RelatedProviderCardWrapper>
+      <RelatedProviderList>
+        {userlist.map(el => (
+          <RelatedProviderCardWrapper key={el}>
             <RelatedProviderCard />
           </RelatedProviderCardWrapper>
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+        ))}
+      </RelatedProviderList>
     </Container>
   );
 }
