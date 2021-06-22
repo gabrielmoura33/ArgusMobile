@@ -34,7 +34,7 @@ function Dashboard() {
     return navigation.navigate('SearchScreen');
   }, [navigation]);
   return (
-    <Container showsVerticalScrollIndicator={false}>
+    <Container showsVerticalScrollIndicator={false} nestedScrollEnabled>
       <Header>
         <Avatar source={fabiUserAvatar} />
         <UserInfoWrapper>

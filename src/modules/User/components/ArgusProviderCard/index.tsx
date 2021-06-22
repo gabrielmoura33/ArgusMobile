@@ -20,7 +20,9 @@ import {
 function ArgusProviderCard() {
   return (
     <Container>
-      <ProviderAvatar source={providerSrc} />
+      <ProviderAvatar
+        source={{ uri: 'https://thispersondoesnotexist.com/image' }}
+      />
       <ContentWrapper>
         <ProviderName>Thiago Silva</ProviderName>
         <AvailablePeriodWrapper>

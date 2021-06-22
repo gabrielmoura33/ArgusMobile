@@ -1,8 +1,10 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 import theme from '../../../../global/styles/theme';
+import ProfileScreen from '../../screens/ProfileScreen';
 import SearchScreen from '../../screens/SearchScreen';
 
 // import { Container } from './styles';
@@ -13,30 +15,33 @@ const UserDrawerNavigator: React.FC = () => {
     <Drawer.Navigator
       openByDefault
       drawerStyle={{
-        width: '115%',
+        width: '100%',
         backgroundColor: theme.colors.Secondary,
-        paddingRight: '15%',
-        paddingTop: '10%',
+
+        paddingTop: '30%',
       }}
       drawerContentOptions={{
         activeBackgroundColor: 'transparent',
-        // activeTintColor: veganAppTheme.colors['green-700'],
-        // inactiveTintColor: veganAppTheme.colors['neutral-100'],
+        activeTintColor: theme.colors.Neutral100,
+        inactiveTintColor: theme.colors.Neutral100,
         itemStyle: {
-          borderBottomWidth: 0.5,
-          borderColor: '#eee',
-          padding: 5,
+          borderBottomWidth: 0.3,
+          borderColor: '#F4F4F8',
+          padding: 2,
           marginTop: 10,
-          width: '100%',
+
+          width: '50%',
         },
         labelStyle: {
-          // fontFamily: veganAppTheme.fonts['SFProRounded'],
-          fontSize: 19,
+          fontFamily: theme.fonts.RobotoBold,
+          fontSize: RFValue(17),
           // fontWeight: "bold"
         },
       }}
     >
-      <Drawer.Screen name="Search" component={SearchScreen} />
+      <Drawer.Screen name="Perfil" component={ProfileScreen} />
+      <Drawer.Screen name="Explorar" component={ProfileScreen} />
+      <Drawer.Screen name="Minha carteira" component={ProfileScreen} />
     </Drawer.Navigator>
   );
 };

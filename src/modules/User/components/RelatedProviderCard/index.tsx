@@ -22,7 +22,9 @@ import {
 function RelatedProviderCard() {
   return (
     <Container>
-      <ProviderAvatar source={providerSrc} />
+      <ProviderAvatar
+        source={{ uri: 'https://thispersondoesnotexist.com/image' }}
+      />
       <ContentContainer>
         <ProviderInfoWrapper>
           <CategoryTitle>Banda de casamento</CategoryTitle>
