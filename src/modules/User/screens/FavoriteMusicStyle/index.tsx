@@ -3,16 +3,13 @@ import React from 'react';
 
 import theme from '../../../../global/styles/theme';
 import ActionButton from '../../../../shared/components/ActionButton';
-import { useAccess } from '../../../../shared/hooks/access';
 import IdentificationInput from './components/IdentificationInput';
 import { FavoriteMusicStyleContainer, Container, Logo, Title } from './styles';
 
 function FavoriteMusicStyle() {
-  const { setFirstLaunchToken } = useAccess();
   const navigator = useNavigation();
 
   async function handleNextScreen() {
-    await setFirstLaunchToken();
     return navigator.navigate('SocialLogin');
   }
 

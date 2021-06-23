@@ -13,6 +13,7 @@ import { useAuth } from '../hooks/auth';
 import ChooseState from '../screens/ChooseState';
 import NoConnection from '../screens/NoConnection';
 import { UserOnboarding } from '../screens/UserOnboarding';
+import ChooseStateRoutes from './chooseState.routes';
 import OnboardingRoutes from './onboarding.routes';
 
 const Routes: React.FC = () => {
@@ -20,17 +21,17 @@ const Routes: React.FC = () => {
   const { isFirstLaunch, state } = useAccess();
   const netInfo = useNetInfo();
 
-  if (loading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color={theme.colors.Neutral100} />
-      </View>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+  //       <ActivityIndicator size="large" color={theme.colors.Neutral100} />
+  //     </View>
+  //   );
+  // }
 
-  if (netInfo.isConnected === true) return <NoConnection />;
+  // if (netInfo.isConnected === true) return <NoConnection />;
 
-  if (isFirstLaunch) {
+  if (isFirstLaunch !== false) {
     return <OnboardingRoutes />;
   }
 
@@ -49,8 +50,9 @@ const Routes: React.FC = () => {
         return <ProviderAuthRoutes />;
       case 'user':
         return <UserAuthRoutes />;
+
       default:
-        return <ChooseState />;
+        return <ChooseStateRoutes />;
     }
   }
 };

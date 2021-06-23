@@ -13,8 +13,8 @@ export const DateTimePickerButton = styled.TouchableOpacity`
 
 export const DateTimePickerText = styled.Text`
   font-size: ${RFValue(20)}px;
-  color: ${({ theme }) => theme.colors.Neutral700};
+  color: ${({ theme }) => theme.colors.Neutral200};
   opacity: 0.5;
   text-align: center;
-  font-family: ${({ theme }) => theme.fonts.RobotoRegular};
+  font-family: ${({ theme }) => theme.fonts.RobotoSlabMedium};
 `;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Platform } from 'react-native';
 
 import AppleIcon from '../../../assets/icons/apple-icon.svg';
@@ -28,9 +28,7 @@ const buttonIcon = {
 };
 function SocialLogin() {
   const { user } = useAuth();
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
+
   return (
     <Container>
       <Logo width={82} height={85} />
@@ -55,9 +53,11 @@ function SocialLogin() {
           </SocialMediaButtonWrapper>
         )}
       />
-      <SignLaterWrapper>
-        <SignLaterLabel>Entrar Depois</SignLaterLabel>
-      </SignLaterWrapper>
+      {user.name.length > 0 && (
+        <SignLaterWrapper>
+          <SignLaterLabel>Entrar Depois</SignLaterLabel>
+        </SignLaterWrapper>
+      )}
     </Container>
   );
 }

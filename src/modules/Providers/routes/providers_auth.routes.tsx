@@ -12,7 +12,7 @@ const ProviderAuthRoutes: React.FC = () => {
     <ProviderAuth.Navigator
       screenOptions={{
         headerShown: false,
-        cardStyle: { backgroundColor: theme.colors.Primary },
+        cardStyle: { backgroundColor: theme.colors.primary },
       }}
       initialRouteName="Sign"
     >

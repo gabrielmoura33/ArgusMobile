@@ -29,9 +29,9 @@ const AccessProvider: React.FC = ({ children }) => {
         `@ArgusApp:FirstAccessToken`,
       );
       const stateAccess = await AsyncStorage.getItem(`@ArgusApp:AppState`);
-      // console.log(!!firstAccessToken);
+
       setData({
-        isFirstLaunch: true,
+        isFirstLaunch: !firstAccessToken,
         state: (stateAccess as 'user' | 'provider') || undefined,
       });
     }

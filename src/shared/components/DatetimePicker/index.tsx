@@ -49,7 +49,7 @@ function DatetimePickerComponent({
           onPress={() => handleOpenDatetimePickerForAndroid()}
         >
           <DateTimePickerText>
-            Selecione uma data: {'\n'}
+            SELECIONE UMA DATA: {'\n'}
             {selectedDateTime && format(selectedDateTime, 'dd / MM / yyyy')}
           </DateTimePickerText>
         </DateTimePickerButton>

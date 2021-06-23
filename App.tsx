@@ -9,6 +9,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from './src/global/styles/theme';
 import UserBottomTabNavigator from './src/modules/User/routes/navigation/user_tabnavigator';
 import UserRoutes from './src/modules/User/routes/user.routes';
+import { UserAuthRoutes } from './src/modules/User/routes/user_auth.routes';
 import SkeletonDashboard from './src/modules/User/skeleton/SkeletonDashboard';
 import { AppProvider } from './src/shared/hooks';
 import Routes from './src/shared/routes';
@@ -46,7 +47,7 @@ export default function App() {
             barStyle="light-content"
             backgroundColor={theme.colors.Secondary}
           />
-          <UserBottomTabNavigator />
+          <Routes />
         </ThemeProvider>
       </AppProvider>
     </NavigationContainer>

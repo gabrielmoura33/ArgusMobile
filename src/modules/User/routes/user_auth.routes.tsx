@@ -19,10 +19,8 @@ const UserAuthRoutes: React.FC = () => (
       headerShown: false,
       cardStyle: { backgroundColor: theme.colors.DarkBackground },
     }}
-    initialRouteName="UserBirthDate"
+    initialRouteName="SocialLogin"
   >
-    <UserAuth.Screen name="ChooseState" component={ChooseState} />
-
     <UserAuth.Screen name="SocialLogin" component={SocialLogin} />
 
     <UserAuth.Screen name="SignIn" component={SignIn} />
