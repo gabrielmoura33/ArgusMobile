@@ -1,5 +1,5 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, RefreshControl } from 'react-native';
 
 import fabiUserAvatar from '../../../../assets/IMG_0384.jpeg';
@@ -30,11 +30,14 @@ import { categoryList } from './utils/categoryList';
 const userlist = [1, 2, 3, 4, 5];
 
 function Dashboard() {
+  const containerRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const navigation = useNavigation();
   const handleNavigateSearch = useCallback(() => {
     return navigation.navigate('SearchScreen');
   }, [navigation]);
+
+  useScrollToTop(containerRef);
 
   useEffect(() => {
     setTimeout(() => {
@@ -43,7 +46,11 @@ function Dashboard() {
   }, []);
   if (loading) return <SkeletonDashboard />;
   return (
-    <Container showsVerticalScrollIndicator={false} nestedScrollEnabled>
+    <Container
+      ref={containerRef}
+      showsVerticalScrollIndicator={false}
+      nestedScrollEnabled
+    >
       <Header>
         <Avatar source={fabiUserAvatar} />
         <UserInfoWrapper>
@@ -59,6 +66,7 @@ function Dashboard() {
         <SeeMoreLabel>Veja mais</SeeMoreLabel>
       </LabelWrapper>
       <CategoryList
+        ref={containerRef}
         data={categoryList}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (

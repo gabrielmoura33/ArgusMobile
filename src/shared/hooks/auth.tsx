@@ -10,10 +10,11 @@ import React, {
 import api from '../services/api';
 
 interface User {
+  id: string;
   name: string;
   email: string;
   password: string;
-  avatar: string;
+  avatar_url: string;
   isProvider: boolean;
   address: Address;
   signed?: boolean;
