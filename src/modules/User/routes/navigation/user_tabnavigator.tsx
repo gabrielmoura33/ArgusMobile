@@ -9,6 +9,7 @@ import SearchIcon from '../../../../assets/icons/search.svg';
 import HeartIcon from '../../../../assets/icons/union.svg';
 import UserIcon from '../../../../assets/icons/user.svg';
 import theme from '../../../../global/styles/theme';
+import Favorites from '../../screens/Favorites';
 import SearchScreen from '../../screens/SearchScreen';
 import MainStackNavigator from '../user.routes';
 import UserDrawerNavigator from './user_drawernavigator';
@@ -75,8 +76,8 @@ const UserBottomTabNavigator: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name="Heart"
-        component={SearchScreen}
+        name="UserFavorites"
+        component={Favorites}
         options={{
           tabBarIcon: ({ color, size, focused }) => {
             return (

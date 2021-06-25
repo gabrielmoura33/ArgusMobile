@@ -8,8 +8,11 @@ import theme from '../../../../global/styles/theme';
 
 function SkeletonDashboard() {
   return (
-    <ScrollView style={styles.container}>
-      <SkeletonPlaceholder backgroundColor={theme.colors.DarkerBlue}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <SkeletonPlaceholder
+        backgroundColor={theme.colors.Secondary}
+        highlightColor={theme.colors.DarkerBlue}
+      >
         <View style={styles.header}>
           <View style={styles.avatar} />
           <View style={styles.userInfoWrapper}>

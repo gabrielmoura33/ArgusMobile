@@ -29,6 +29,7 @@
     "expo-app-loading": "^1.0.3",
     "expo-font": "~9.1.0",
     "expo-image-picker": "~10.1.4",
+    "expo-linear-gradient": "~9.1.0",
     "expo-splash-screen": "~0.10.2",
     "expo-updates": "~0.5.4",
     "react": "17.0.1",

@@ -1,4 +1,8 @@
-import { BorderlessButton, FlatList } from 'react-native-gesture-handler';
+import {
+  BorderlessButton,
+  FlatList,
+  RectButton,
+} from 'react-native-gesture-handler';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
@@ -19,6 +23,9 @@ export const Avatar = styled.Image`
   height: ${RFValue(53)}px;
   border-radius: ${RFValue(35)}px;
 `;
+
+export const ButtonWrapper = styled(RectButton)``;
+
 export const UserInfoWrapper = styled.View`
   margin-left: 3%;
   width: 74%;
@@ -74,7 +81,7 @@ export const ArgusProviderList = styled(FlatList)`
 `;
 
 export const ArgusProviderCardWrapper = styled.View`
-  padding-right: ${RFValue(29)}px;
+  padding-right: ${RFValue(12)}px;
 `;
 
 export const RelatedProviderList = styled.View`

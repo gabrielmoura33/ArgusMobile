@@ -47,7 +47,7 @@ export default function App() {
             barStyle="light-content"
             backgroundColor={theme.colors.Secondary}
           />
-          <Routes />
+          <UserBottomTabNavigator />
         </ThemeProvider>
       </AppProvider>
     </NavigationContainer>

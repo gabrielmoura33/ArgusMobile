@@ -11,7 +11,7 @@ export const Container = styled(RectButton)`
 `;
 
 export const ProviderAvatar = styled.Image`
-  width: ${RFValue(159)}px;
+  width: 44%;
   height: 100%;
 `;
 export const ContentContainer = styled.View`

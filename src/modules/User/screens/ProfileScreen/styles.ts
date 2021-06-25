@@ -5,7 +5,7 @@ import ActionButton from '../../../../shared/components/ActionButton';
 
 export const Container = styled.View`
   justify-content: center;
-  padding: 0 20px 100px;
+  padding: ${RFValue(10)}px ${RFValue(20)}px ${RFValue(100)}px;
   position: relative;
   /* margin-bottom: 200px; */
 `;
@@ -28,6 +28,10 @@ export const UserAvatar = styled.Image`
   height: ${RFValue(186)}px;
   border-radius: ${RFValue(98)}px;
   align-self: center;
+`;
+
+export const PasswordWrapper = styled.View`
+  margin-top: ${RFValue(32)}px;
 `;
 
 export const ConfirmChangeButton = styled(ActionButton)`

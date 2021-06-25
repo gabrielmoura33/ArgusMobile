@@ -24,46 +24,53 @@ import {
   ArgusProviderCardWrapper,
   RelatedProviderList,
   RelatedProviderCardWrapper,
+  ButtonWrapper,
 } from './styles';
 import { categoryList } from './utils/categoryList';
 
 const userlist = [1, 2, 3, 4, 5];
+const delay = 3;
 
 function Dashboard() {
   const containerRef = useRef(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const navigation = useNavigation();
-  const handleNavigateSearch = useCallback(() => {
-    return navigation.navigate('SearchScreen');
-  }, [navigation]);
 
+  const handleNavigate = useCallback(
+    (routeName: string) => {
+      return navigation.navigate(routeName);
+    },
+    [navigation],
+  );
   useScrollToTop(containerRef);
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    const timer1 = setTimeout(() => setLoading(false), delay * 1000);
+
+    return () => {
+      clearTimeout(timer1);
+    };
   }, []);
   if (loading) return <SkeletonDashboard />;
   return (
-    <Container
-      ref={containerRef}
-      showsVerticalScrollIndicator={false}
-      nestedScrollEnabled
-    >
+    <Container ref={containerRef} showsVerticalScrollIndicator={false}>
       <Header>
-        <Avatar source={fabiUserAvatar} />
+        <ButtonWrapper onPress={() => handleNavigate('ProfileStack')}>
+          <Avatar source={fabiUserAvatar} />
+        </ButtonWrapper>
         <UserInfoWrapper>
           <UserWelcomeLabel>Bem vindo(a) de volta,</UserWelcomeLabel>
           <UserName>Fabiane Almeida Santos</UserName>
         </UserInfoWrapper>
-        <SearchButtonWrapper onPress={handleNavigateSearch}>
+        <SearchButtonWrapper onPress={() => handleNavigate('SearchScreen')}>
           <SearchIcon />
         </SearchButtonWrapper>
       </Header>
       <LabelWrapper>
         <Label>Categorias</Label>
-        <SeeMoreLabel>Veja mais</SeeMoreLabel>
+        <ButtonWrapper onPress={() => handleNavigate('CategoryList')}>
+          <SeeMoreLabel>Veja mais</SeeMoreLabel>
+        </ButtonWrapper>
       </LabelWrapper>
       <CategoryList
         ref={containerRef}

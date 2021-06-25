@@ -27,6 +27,7 @@ import {
   UserAvatar,
   PowerButton,
   ConfirmChangeButton,
+  PasswordWrapper,
 } from './styles';
 
 interface ProfileFormData {
@@ -194,39 +195,42 @@ const Profile: React.FC = () => {
                 returnKeyType="next"
                 onSubmitEditing={() => oldPasswordInputRef.current?.focus()}
               />
+              <PasswordWrapper>
+                <Input
+                  ref={oldPasswordInputRef}
+                  secureTextEntry
+                  icon="lock"
+                  name="old_password"
+                  placeholder="Senha atual"
+                  textContentType="newPassword"
+                  returnKeyType="next"
+                  onSubmitEditing={() => passwordInputRef.current?.focus()}
+                />
 
-              <Input
-                ref={oldPasswordInputRef}
-                secureTextEntry
-                icon="lock"
-                name="old_password"
-                placeholder="Senha atual"
-                textContentType="newPassword"
-                returnKeyType="next"
-                onSubmitEditing={() => passwordInputRef.current?.focus()}
-              />
+                <Input
+                  ref={passwordInputRef}
+                  icon="lock"
+                  secureTextEntry
+                  name="password"
+                  placeholder="Senha"
+                  textContentType="newPassword"
+                  returnKeyType="next"
+                  onSubmitEditing={() =>
+                    confirmPasswordInputRef.current?.focus()
+                  }
+                />
 
-              <Input
-                ref={passwordInputRef}
-                icon="lock"
-                secureTextEntry
-                name="password"
-                placeholder="Senha"
-                textContentType="newPassword"
-                returnKeyType="next"
-                onSubmitEditing={() => confirmPasswordInputRef.current?.focus()}
-              />
-
-              <Input
-                ref={confirmPasswordInputRef}
-                secureTextEntry
-                icon="lock"
-                name="password_confirmation"
-                placeholder="Confirmar senha"
-                textContentType="newPassword"
-                returnKeyType="send"
-                onSubmitEditing={() => formRef.current?.submitForm()}
-              />
+                <Input
+                  ref={confirmPasswordInputRef}
+                  secureTextEntry
+                  icon="lock"
+                  name="password_confirmation"
+                  placeholder="Confirmar senha"
+                  textContentType="newPassword"
+                  returnKeyType="send"
+                  onSubmitEditing={() => formRef.current?.submitForm()}
+                />
+              </PasswordWrapper>
 
               <ConfirmChangeButton
                 // loading={false}
