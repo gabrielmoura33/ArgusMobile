@@ -16,7 +16,7 @@ interface AccessContextData {
   state?: 'provider' | 'user';
   setFirstLaunchToken(): Promise<void>;
   setChooseState(state: 'provider' | 'user'): Promise<void>;
-  reset: any;
+  handleReset: any;
 }
 
 const AccessContext = createContext<AccessContextData>({} as AccessContextData);
@@ -34,6 +34,9 @@ const AccessProvider: React.FC = ({ children }) => {
         isFirstLaunch: Boolean(firstAccessToken),
         state: (stateAccess as 'user' | 'provider') || undefined,
       });
+      console.log('stateAccess', stateAccess);
+      console.log('firstAccessToken', firstAccessToken);
+      console.log(data);
     }
     loadStoragedData();
   }, []);
@@ -60,8 +63,7 @@ const AccessProvider: React.FC = ({ children }) => {
     [data.isFirstLaunch],
   );
 
-  const reset = useCallback(async () => {
-    await AsyncStorage.clear();
+  const handleReset = useCallback(async () => {
     setData({
       isFirstLaunch: false,
       state: undefined,
@@ -75,7 +77,7 @@ const AccessProvider: React.FC = ({ children }) => {
         setFirstLaunchToken,
         setChooseState,
         state: data.state,
-        reset,
+        handleReset,
       }}
     >
       {children}

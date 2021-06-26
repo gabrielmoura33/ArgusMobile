@@ -35,7 +35,7 @@ interface ProfileFormData {
 
 const Profile: React.FC = () => {
   const { user, signOut } = useAuth();
-  const { reset } = useAccess();
+  const { handleReset } = useAccess();
 
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
@@ -145,7 +145,7 @@ const Profile: React.FC = () => {
   }, [navigation]);
   const handleSignOut = async () => {
     signOut();
-    reset();
+    handleReset();
   };
   return (
     <>
@@ -183,7 +183,6 @@ const Profile: React.FC = () => {
 
               <Input
                 ref={emailInputRef}
-                keyboardType="email-address"
                 autoCorrect={false}
                 icon="mail"
                 autoCapitalize="none"

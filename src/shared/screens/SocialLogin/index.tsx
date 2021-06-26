@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Platform } from 'react-native';
 
@@ -28,11 +29,20 @@ const buttonIcon = {
   LOGIN: MailIcon,
 };
 function SocialLogin() {
+  const navigation = useNavigation();
   const { user, signInWithGoogle } = useAuth();
   const { setFirstLaunchToken } = useAccess();
-  async function handleSocialAuth() {
-    await signInWithGoogle();
-    setFirstLaunchToken();
+  async function handleSocialAuth(type: MediaProps) {
+    switch (type) {
+      case 'LOGIN':
+        return navigation.navigate('SignIn');
+      case 'GOOGLE':
+        await signInWithGoogle();
+
+        return setFirstLaunchToken();
+      default:
+        return navigation.navigate('SignIn');
+    }
   }
   return (
     <Container>
@@ -54,7 +64,7 @@ function SocialLogin() {
             <SocialLoginButton
               svg={buttonIcon[item as MediaProps]}
               type={item as any}
-              onPress={() => handleSocialAuth()}
+              onPress={() => handleSocialAuth(item as MediaProps)}
             />
           </SocialMediaButtonWrapper>
         )}

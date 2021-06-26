@@ -65,12 +65,13 @@ const AuthProvider: React.FC = ({ children }) => {
     loadStoragedData();
   }, []);
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('auth', {
+    const response = await api.post('sessions', {
       email,
       password,
     });
 
-    const { token, user } = response.data;
+    const { user } = response.data;
+    const { accesstoken: token } = response.headers;
 
     await AsyncStorage.multiSet([
       ['@ArgusApp:token', token],
@@ -106,6 +107,7 @@ const AuthProvider: React.FC = ({ children }) => {
           password: String(result.user.id),
           birth_date: data.user.birth_date,
         };
+
         const response = await api.post(
           '/sessions/social-auth/google',
           userLogged,
