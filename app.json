@@ -1,12 +1,33 @@
 {
-  "name": "Argus",
-  "displayName": "myapp",
   "expo": {
-    "name": "myapp",
-    "slug": "myapp",
+    "name": "Argus",
+    "slug": "mobile",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#E06714"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#E06714"
+      }
+
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
   }
 }
