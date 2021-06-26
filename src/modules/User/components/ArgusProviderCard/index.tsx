@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { ActivityIndicator } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import providerSrc from '../../../../assets/IMG_0384.jpeg';
@@ -13,16 +14,24 @@ import {
   AvailableTimeWrapper,
   AvailableTime,
   ContentWrapper,
+  ProviderAvatarIndicator,
 } from './styles';
 
 // interface ProviderCardProps {}
 
 function ArgusProviderCard() {
+  const [loading, setLoading] = useState(true);
   return (
-    <Container>
+    <Container activeOpacity={0.6}>
+      <ProviderAvatarIndicator loading={loading}>
+        <ActivityIndicator />
+      </ProviderAvatarIndicator>
       <ProviderAvatar
         source={{ uri: 'https://thispersondoesnotexist.com/image' }}
+        loading={loading}
+        onLoadEnd={() => setLoading(false)}
       />
+
       <ContentWrapper>
         <ProviderName>Thiago Silva</ProviderName>
         <AvailablePeriodWrapper>

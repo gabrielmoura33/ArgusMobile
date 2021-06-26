@@ -99,7 +99,6 @@ function Dashboard() {
       />
       <LabelWrapper>
         <Label size="medium">Artistas Relacionados</Label>
-        <SeeMoreLabel>Veja mais</SeeMoreLabel>
       </LabelWrapper>
       <RelatedProviderList>
         {userlist.map(el => (

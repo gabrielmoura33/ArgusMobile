@@ -10,11 +10,34 @@ export const Container = styled.TouchableOpacity`
   border-bottom-left-radius: 5px;
 `;
 
-export const ProviderAvatar = styled.Image`
-  width: ${RFValue(167)}px;
-  height: ${RFValue(117)}px;
+interface AvatarProps {
+  loading: boolean;
+}
+export const ProviderAvatar = styled.Image<AvatarProps>`
+  width: 100%;
+  height: 57%;
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
+  ${props =>
+    props.loading &&
+    `
+    display: none;
+  `}
+`;
+
+export const ProviderAvatarIndicator = styled.View<AvatarProps>`
+  width: 100%;
+  height: 57%;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  background-color: ${({ theme }) => theme.colors.DarkerBlue};
+  align-items: center;
+  justify-content: center;
+  ${props =>
+    !props.loading &&
+    `
+    display: none;
+  `}
 `;
 
 export const ContentWrapper = styled.View`
@@ -23,7 +46,7 @@ export const ContentWrapper = styled.View`
 export const ProviderName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.RobotoSlabMedium};
   font-size: ${RFValue(12)}px;
-  line-height: ${RFValue(11)}px;
+  /* line-height: ${RFValue(11)}px; */
   color: ${({ theme }) => theme.colors.Neutral100};
 `;
 export const AvailablePeriodWrapper = styled.View`

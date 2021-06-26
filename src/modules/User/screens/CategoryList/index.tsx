@@ -14,15 +14,13 @@ function CategoryList({ children }: CategoryListProps) {
   return (
     <Wrapper>
       <HeaderSinglePage title="Categorias">
-        <Container
-          data={categoryList}
-          keyExtractor={item => item.name}
-          renderItem={({ item }) => (
+        {/* <Container>
+          {categoryList.map(category => (
             <CategoryWrapper>
-              <CategoryComponent name={item.name} source={item.image} />
+              <CategoryComponent name={category.name} source={category.image} />
             </CategoryWrapper>
-          )}
-        />
+          ))}
+        </Container> */}
       </HeaderSinglePage>
     </Wrapper>
   );
