@@ -8,18 +8,13 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  View,
   TextInput,
-  Alert,
 } from 'react-native';
 
 import theme from '../../../../global/styles/theme';
+import { useAccess } from '../../../../shared/hooks/access';
 import { useAuth } from '../../../../shared/hooks/auth';
 import Input from '../../components/Form/Input';
-
-// import Input from '../../components/Input';
-
-// import getValidationErrors from '../../utils/getValidationErros';
 import {
   Container,
   BackButton,
@@ -40,6 +35,7 @@ interface ProfileFormData {
 
 const Profile: React.FC = () => {
   const { user, signOut } = useAuth();
+  const { reset } = useAccess();
 
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
@@ -147,7 +143,10 @@ const Profile: React.FC = () => {
   const handleGoBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
-
+  const handleSignOut = async () => {
+    signOut();
+    reset();
+  };
   return (
     <>
       <KeyboardAvoidingView
@@ -164,14 +163,12 @@ const Profile: React.FC = () => {
               <Icon name="chevron-left" size={24} color="#999591" />
             </BackButton>
 
-            <PowerButton onPress={signOut}>
+            <PowerButton onPress={handleSignOut}>
               <Icon name="power" size={24} color="#999999" />
             </PowerButton>
 
             <UserAvatarButton onPress={handleUpdateAvatar}>
-              <UserAvatar
-                source={{ uri: 'https://thispersondoesnotexist.com/image' }}
-              />
+              <UserAvatar source={{ uri: user.avatar_url }} />
             </UserAvatarButton>
 
             <Form initialData={user} ref={formRef} onSubmit={handleSubmit}>

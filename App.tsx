@@ -13,7 +13,6 @@ import { UserAuthRoutes } from './src/modules/User/routes/user_auth.routes';
 import SkeletonDashboard from './src/modules/User/skeleton/SkeletonDashboard';
 import { AppProvider } from './src/shared/hooks';
 import Routes from './src/shared/routes';
-import Shrimer from './src/shared/screens/Shrimer';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -47,7 +46,7 @@ export default function App() {
             barStyle="light-content"
             backgroundColor={theme.colors.Secondary}
           />
-          <UserBottomTabNavigator />
+          <Routes />
         </ThemeProvider>
       </AppProvider>
     </NavigationContainer>

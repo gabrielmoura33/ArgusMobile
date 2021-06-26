@@ -6,6 +6,7 @@ import { ActivityIndicator, View } from 'react-native';
 import theme from '../../global/styles/theme';
 import ProviderRoutes from '../../modules/Providers/routes/providers.routes';
 import { ProviderAuthRoutes } from '../../modules/Providers/routes/providers_auth.routes';
+import UserBottomTabNavigator from '../../modules/User/routes/navigation/user_tabnavigator';
 import UserRoutes from '../../modules/User/routes/user.routes';
 import { UserAuthRoutes } from '../../modules/User/routes/user_auth.routes';
 import { useAccess } from '../hooks/access';
@@ -21,39 +22,37 @@ const Routes: React.FC = () => {
   const { isFirstLaunch, state } = useAccess();
   const netInfo = useNetInfo();
 
-  // if (loading) {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-  //       <ActivityIndicator size="large" color={theme.colors.Neutral100} />
-  //     </View>
-  //   );
-  // }
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={theme.colors.Neutral100} />
+      </View>
+    );
+  }
 
   // if (netInfo.isConnected === true) return <NoConnection />;
 
   if (isFirstLaunch !== false) {
+    console.log(user);
+    console.log(isFirstLaunch);
+    console.log(state);
     return <OnboardingRoutes />;
   }
 
   if (user && user.signed) {
-    switch (user.isProvider) {
-      case true:
-        return <ProviderRoutes />;
-      case false:
-        return <UserRoutes />;
-      default:
-        return <OnboardingRoutes />;
-    }
-  } else {
-    switch (state) {
-      case 'provider':
-        return <ProviderAuthRoutes />;
-      case 'user':
-        return <UserAuthRoutes />;
+    return <UserBottomTabNavigator />;
+  }
 
-      default:
-        return <ChooseStateRoutes />;
-    }
+  switch (state) {
+    case 'provider':
+      console.log('provider');
+      return <ProviderAuthRoutes />;
+    case 'user':
+      console.log('user');
+      return <UserAuthRoutes />;
+    default:
+      console.log('ahjsbdha');
+      return <ChooseStateRoutes />;
   }
 };
 

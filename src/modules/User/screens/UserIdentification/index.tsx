@@ -18,8 +18,8 @@ function UserIdentification() {
 
   function handleSubmitName() {
     user.name = name;
-    user.signed = true;
-    // handleNextScreen();
+
+    handleNextScreen();
   }
   return (
     <Container>
