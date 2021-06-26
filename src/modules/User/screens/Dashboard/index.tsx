@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, RefreshControl } from 'react-native';
 
 import fabiUserAvatar from '../../../../assets/IMG_0384.jpeg';
+import { useAuth } from '../../../../shared/hooks/auth';
 import ArgusProviderCard from '../../components/ArgusProviderCard';
 import CategoryComponent from '../../components/CategoryComponent';
 import RelatedProviderCard from '../../components/RelatedProviderCard';
@@ -32,6 +33,7 @@ const userlist = [1, 2, 3, 4, 5];
 const delay = 3;
 
 function Dashboard() {
+  const { user } = useAuth();
   const containerRef = useRef(null);
   const [loading, setLoading] = useState<boolean>(true);
   const navigation = useNavigation();
@@ -56,11 +58,11 @@ function Dashboard() {
     <Container ref={containerRef} showsVerticalScrollIndicator={false}>
       <Header>
         <ButtonWrapper onPress={() => handleNavigate('ProfileStack')}>
-          <Avatar source={fabiUserAvatar} />
+          <Avatar source={{ uri: user.avatar_url }} />
         </ButtonWrapper>
         <UserInfoWrapper>
           <UserWelcomeLabel>Bem vindo(a) de volta,</UserWelcomeLabel>
-          <UserName>Fabiane Almeida Santos</UserName>
+          <UserName>{user.name}</UserName>
         </UserInfoWrapper>
         <SearchButtonWrapper onPress={() => handleNavigate('SearchScreen')}>
           <SearchIcon />

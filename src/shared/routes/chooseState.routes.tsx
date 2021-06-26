@@ -22,6 +22,7 @@ const ChooseStateRoutes: React.FC = () => (
       cardStyle: { backgroundColor: theme.colors.Secondary },
       cardStyleInterpolator: forFade,
     }}
+    initialRouteName="ChooseState"
   >
     <ChooseStateStack.Screen name="ChooseState" component={ChooseState} />
     <ChooseStateStack.Screen name="SocialLogin" component={SocialLogin} />

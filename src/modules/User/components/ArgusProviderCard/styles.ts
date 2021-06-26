@@ -21,7 +21,7 @@ export const ProviderAvatar = styled.Image<AvatarProps>`
   ${props =>
     props.loading &&
     `
-    display: none;
+    opacity: 0;
   `}
 `;
 

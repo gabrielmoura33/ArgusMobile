@@ -5,6 +5,7 @@ import AppleIcon from '../../../assets/icons/apple-icon.svg';
 import FacebookIcon from '../../../assets/icons/facebook-icon.svg';
 import GoogleIcon from '../../../assets/icons/google-icon.svg';
 import MailIcon from '../../../assets/icons/mail-icon.svg';
+import { useAccess } from '../../hooks/access';
 import { useAuth } from '../../hooks/auth';
 import SocialLoginButton from './components/SocialLoginButton';
 import {
@@ -27,8 +28,12 @@ const buttonIcon = {
   LOGIN: MailIcon,
 };
 function SocialLogin() {
-  const { user } = useAuth();
-
+  const { user, signInWithGoogle } = useAuth();
+  const { setFirstLaunchToken } = useAccess();
+  async function handleSocialAuth() {
+    await signInWithGoogle();
+    setFirstLaunchToken();
+  }
   return (
     <Container>
       <Logo width={82} height={85} />
@@ -49,15 +54,16 @@ function SocialLogin() {
             <SocialLoginButton
               svg={buttonIcon[item as MediaProps]}
               type={item as any}
+              onPress={() => handleSocialAuth()}
             />
           </SocialMediaButtonWrapper>
         )}
       />
-      {user.name.length > 0 && (
+      {/* {user.name.length > 0 && (
         <SignLaterWrapper>
           <SignLaterLabel>Entrar Depois</SignLaterLabel>
         </SignLaterWrapper>
-      )}
+      )} */}
     </Container>
   );
 }

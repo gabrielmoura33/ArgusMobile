@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Google from 'expo-google-app-auth';
 import React, {
   createContext,
   useCallback,
@@ -36,7 +37,9 @@ interface AuthContextData {
   loading: boolean;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
+  signInWithGoogle(): Promise<void>;
 }
+
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
@@ -78,12 +81,71 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(async () => {
-    await AsyncStorage.multiRemove(['@Argus:user', '@Argus:token']);
-
-    setData({} as AuthState);
+    await AsyncStorage.multiRemove(['@ArgusApp:user', '@ArgusApp:token']);
+    setData({
+      user: {},
+      token: '',
+    } as AuthState);
   }, []);
+
+  async function signInWithGoogle() {
+    try {
+      const result = await Google.logInAsync({
+        iosClientId:
+          '667162433343-bm972dcjeoonb5tmhdho0jhnlm0th75k.apps.googleusercontent.com',
+        androidClientId:
+          '667162433343-2lns20c78qkvls7c893vr78s0636g3o0.apps.googleusercontent.com',
+        scopes: ['profile', 'email'],
+      });
+
+      if (result.type === 'success') {
+        const userLogged = {
+          email: result.user.email!,
+          name: result.user.name!,
+          avatar_url: result.user.photoUrl!,
+          password: String(result.user.id),
+          birth_date: data.user.birth_date,
+        };
+        const response = await api.post(
+          '/sessions/social-auth/google',
+          userLogged,
+          {
+            headers: {
+              social_auth_token: '0614d7c58853a0ef79480b33fe698982',
+            },
+          },
+        );
+
+        const { user } = response.data;
+        const { accesstoken: token } = response.headers;
+
+        const googleUser = {
+          id: user.id,
+          name: userLogged.name,
+          email: userLogged.email,
+          birth_date: userLogged.birth_date,
+          avatar_url: userLogged.avatar_url,
+          old_password: userLogged.password,
+          address: user.address,
+          isProvider: false,
+          signed: true,
+        };
+        await AsyncStorage.multiSet([
+          ['@ArgusApp:token', token],
+          ['@ArgusApp:user', JSON.stringify(googleUser)],
+        ]);
+
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+        setData({ token, user: googleUser as any });
+      }
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
   return (
-    <AuthContext.Provider value={{ user: data.user, loading, signIn, signOut }}>
+    <AuthContext.Provider
+      value={{ user: data.user, loading, signIn, signOut, signInWithGoogle }}
+    >
       {children}
     </AuthContext.Provider>
   );

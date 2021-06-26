@@ -21,6 +21,9 @@ import {
 
 function ArgusProviderCard() {
   const [loading, setLoading] = useState(true);
+  const handleFinishLoading = () => {
+    setLoading(false);
+  };
   return (
     <Container activeOpacity={0.6}>
       <ProviderAvatarIndicator loading={loading}>
@@ -29,7 +32,7 @@ function ArgusProviderCard() {
       <ProviderAvatar
         source={{ uri: 'https://thispersondoesnotexist.com/image' }}
         loading={loading}
-        onLoadEnd={() => setLoading(false)}
+        onLoadEnd={handleFinishLoading}
       />
 
       <ContentWrapper>
