@@ -5,6 +5,7 @@ import {
 import React from 'react';
 
 import theme from '../../global/styles/theme';
+import { UserAuthRoutes } from '../../modules/User/routes/user_auth.routes';
 import ChooseState from '../screens/ChooseState';
 import SocialLogin from '../screens/SocialLogin';
 
@@ -20,12 +21,12 @@ const ChooseStateRoutes: React.FC = () => (
     screenOptions={{
       headerShown: false,
       cardStyle: { backgroundColor: theme.colors.Secondary },
-      cardStyleInterpolator: forFade,
+      cardStyleInterpolator: CardStyleInterpolators.forNoAnimation,
     }}
     initialRouteName="ChooseState"
   >
     <ChooseStateStack.Screen name="ChooseState" component={ChooseState} />
-    <ChooseStateStack.Screen name="SocialLogin" component={SocialLogin} />
+    <ChooseStateStack.Screen name="SocialLogin" component={UserAuthRoutes} />
   </ChooseStateStack.Navigator>
 );
 

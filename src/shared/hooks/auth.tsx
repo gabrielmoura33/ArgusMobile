@@ -48,6 +48,7 @@ const AuthProvider: React.FC = ({ children }) => {
     token: '',
   } as AuthState);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const [token, user] = await AsyncStorage.multiGet([
@@ -83,6 +84,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const signOut = useCallback(async () => {
     await AsyncStorage.multiRemove(['@ArgusApp:user', '@ArgusApp:token']);
+
     setData({
       user: {},
       token: '',

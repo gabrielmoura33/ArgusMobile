@@ -25,7 +25,7 @@ const UserAuthRoutes: React.FC = () => (
       cardStyleInterpolator:
         Platform.OS === 'ios'
           ? CardStyleInterpolators.forHorizontalIOS
-          : CardStyleInterpolators.forFadeFromBottomAndroid,
+          : CardStyleInterpolators.forNoAnimation,
     }}
     initialRouteName="SocialLogin"
   >
