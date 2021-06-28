@@ -35,7 +35,7 @@ interface ProfileFormData {
 
 const Profile: React.FC = () => {
   const { user, signOut } = useAuth();
-  const { handleReset } = useAccess();
+  const { handleChooseAppState } = useAccess();
 
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
@@ -145,7 +145,7 @@ const Profile: React.FC = () => {
   }, [navigation]);
   const handleSignOut = async () => {
     signOut();
-    handleReset();
+    handleChooseAppState('default');
   };
   return (
     <>

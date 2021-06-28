@@ -7,22 +7,20 @@ import React, {
   useEffect,
 } from 'react';
 
-interface AccessState {
-  isFirstLaunch: boolean;
-  state?: 'provider' | 'user';
-}
+type AppStateOptions = 'provider' | 'user' | 'default';
 interface AccessContextData {
   isFirstLaunch: boolean;
-  state?: 'provider' | 'user';
-  setFirstLaunchToken(): Promise<void>;
-  setChooseState(state: 'provider' | 'user'): Promise<void>;
-  handleReset: any;
+  appState?: AppStateOptions;
+  handleSetFirstLaunch(): Promise<void>;
+  handleChooseAppState(state: AppStateOptions): Promise<void>;
 }
 
 const AccessContext = createContext<AccessContextData>({} as AccessContextData);
 
 const AccessProvider: React.FC = ({ children }) => {
-  const [data, setData] = useState<AccessState>({} as AccessState);
+  const [isFirstLaunch, setIsFirstLaunch] = useState<boolean>(true);
+  const [appState, setAppState] = useState<AppStateOptions>('default');
+
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const firstAccessToken = await AsyncStorage.getItem(
@@ -30,54 +28,37 @@ const AccessProvider: React.FC = ({ children }) => {
       );
       const stateAccess = await AsyncStorage.getItem(`@ArgusApp:AppState`);
 
-      setData({
-        isFirstLaunch: Boolean(firstAccessToken),
-        state: (stateAccess as 'user' | 'provider') || undefined,
-      });
-      console.log('stateAccess', stateAccess);
-      console.log('firstAccessToken', firstAccessToken);
-      console.log(data);
+      if (firstAccessToken) setIsFirstLaunch(false);
+
+      if (stateAccess) setAppState(stateAccess as AppStateOptions);
     }
     loadStoragedData();
   }, []);
 
-  const setFirstLaunchToken = useCallback(async () => {
-    await AsyncStorage.setItem(
-      '@ArgusApp:FirstAccessToken',
-      String(data.isFirstLaunch),
-    );
-    setData({
-      state: data.state,
-      isFirstLaunch: false,
-    });
-  }, [data.isFirstLaunch, data.state]);
+  const handleSetFirstLaunch = useCallback(async () => {
+    try {
+      setIsFirstLaunch(false);
+      await AsyncStorage.setItem('@ArgusApp:FirstAccessToken', String(false));
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, []);
 
-  const setChooseState = useCallback(
-    async (state: 'provider' | 'user') => {
-      setData({
-        isFirstLaunch: data.isFirstLaunch,
-        state,
-      });
+  const handleChooseAppState = useCallback(async (state: AppStateOptions) => {
+    try {
       await AsyncStorage.setItem('@ArgusApp:AppState', state);
-    },
-    [data.isFirstLaunch],
-  );
-
-  const handleReset = useCallback(async () => {
-    setData({
-      isFirstLaunch: false,
-      state: undefined,
-    });
+    } catch (error) {
+      throw new Error(error);
+    }
   }, []);
 
   return (
     <AccessContext.Provider
       value={{
-        isFirstLaunch: data.isFirstLaunch,
-        setFirstLaunchToken,
-        setChooseState,
-        state: data.state,
-        handleReset,
+        isFirstLaunch,
+        handleChooseAppState,
+        appState,
+        handleSetFirstLaunch,
       }}
     >
       {children}

@@ -20,6 +20,9 @@ interface User {
   address: Address;
   signed?: boolean;
   birth_date?: Date;
+  isSocialSign?: boolean;
+  googleAccessToken?: string;
+  isGoogleSign?: boolean;
 }
 interface Address {
   city: string;
@@ -57,6 +60,7 @@ const AuthProvider: React.FC = ({ children }) => {
       ]);
 
       if (token[1] && user[1]) {
+        console.log(JSON.parse(user[1]));
         api.defaults.headers.Authorization = `Bearer ${token[1]}`;
         setData({ token: token[1], user: JSON.parse(user[1]) });
       }
@@ -83,13 +87,22 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(async () => {
+    if (data.user.isGoogleSign && data.user.googleAccessToken)
+      await Google.logOutAsync({
+        accessToken: data.user.googleAccessToken,
+        iosClientId:
+          '667162433343-bm972dcjeoonb5tmhdho0jhnlm0th75k.apps.googleusercontent.com',
+        androidClientId:
+          '667162433343-2lns20c78qkvls7c893vr78s0636g3o0.apps.googleusercontent.com',
+      });
+
     await AsyncStorage.multiRemove(['@ArgusApp:user', '@ArgusApp:token']);
 
     setData({
       user: {},
       token: '',
     } as AuthState);
-  }, []);
+  }, [data.user.googleAccessToken, data.user.isGoogleSign]);
 
   async function signInWithGoogle() {
     try {
@@ -131,6 +144,8 @@ const AuthProvider: React.FC = ({ children }) => {
           avatar_url: userLogged.avatar_url,
           old_password: userLogged.password,
           address: user.address,
+          googleAccessToken: result.accessToken,
+          isGoogleSign: true,
           isProvider: false,
           signed: true,
         };

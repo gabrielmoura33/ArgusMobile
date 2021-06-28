@@ -5,12 +5,10 @@ import styled from 'styled-components/native';
 export const Wrapper = styled.ScrollView`
   background-color: ${({ theme }) => theme.colors.Secondary};
 `;
-export const Container = styled.View`
-  padding: 0 ${RFValue(35)}px 0 0;
-`;
+export const Container = styled.View``;
 
 export const CardWrapper = styled.View`
-  width: ${RFValue(305)}px;
+  width: 100%;
   height: ${RFValue(112)}px;
   margin-bottom: ${RFValue(20)}px;
   position: relative;

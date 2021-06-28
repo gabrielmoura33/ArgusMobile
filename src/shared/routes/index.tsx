@@ -10,10 +10,11 @@ import { useAccess } from '../hooks/access';
 import { useAuth } from '../hooks/auth';
 import NoConnection from '../screens/NoConnection';
 import ChooseStateRoutes from './chooseState.routes';
+import OnboardingRoutes from './onboarding.routes';
 
 const Routes: React.FC = () => {
   const { user, loading } = useAuth();
-  const { isFirstLaunch, state } = useAccess();
+  const { isFirstLaunch, appState } = useAccess();
   const netInfo = useNetInfo();
 
   if (loading) {
@@ -26,22 +27,20 @@ const Routes: React.FC = () => {
 
   if (netInfo.isConnected === false) return <NoConnection />;
 
-  if (isFirstLaunch !== false) {
-    // console.log(user);
-    // console.log(isFirstLaunch);
-    // console.log(state);
-    return <UserAuthRoutes />;
+  if (isFirstLaunch === true && !user && !appState) {
+    return <OnboardingRoutes />;
   }
 
   if (user && user.signed) {
     return <UserBottomTabNavigator />;
   }
 
-  switch (state) {
+  switch (appState) {
     case 'provider':
       return <ProviderAuthRoutes />;
     case 'user':
       return <UserAuthRoutes />;
+    case 'default':
     default:
       return <ChooseStateRoutes />;
   }

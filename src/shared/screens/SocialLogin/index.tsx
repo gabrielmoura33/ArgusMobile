@@ -20,26 +20,25 @@ import {
 } from './styles';
 
 type MediaProps = 'APPLE' | 'FACEBOOK' | 'GOOGLE' | 'LOGIN';
-const medias = ['APPLE', 'FACEBOOK', 'GOOGLE', 'LOGIN'] as MediaProps[];
+const medias = ['APPLE', 'GOOGLE', 'LOGIN'] as MediaProps[];
 
 const buttonIcon = {
   APPLE: AppleIcon,
-  FACEBOOK: FacebookIcon,
+
   GOOGLE: GoogleIcon,
   LOGIN: MailIcon,
 };
 function SocialLogin() {
   const navigation = useNavigation();
   const { user, signInWithGoogle } = useAuth();
-  const { setFirstLaunchToken } = useAccess();
+  const { handleSetFirstLaunch } = useAccess();
   async function handleSocialAuth(type: MediaProps) {
     switch (type) {
       case 'LOGIN':
         return navigation.navigate('SignIn');
       case 'GOOGLE':
         await signInWithGoogle();
-
-        return setFirstLaunchToken();
+        return handleSetFirstLaunch();
       default:
         return navigation.navigate('SignIn');
     }

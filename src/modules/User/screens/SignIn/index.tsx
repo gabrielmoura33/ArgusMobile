@@ -13,6 +13,7 @@ import * as Yup from 'yup';
 
 import logoSrc from '../../../../assets/company/logo.png';
 import theme from '../../../../global/styles/theme';
+import { useAccess } from '../../../../shared/hooks/access';
 import { useAuth } from '../../../../shared/hooks/auth';
 import getValidationErrors from '../../../../shared/utils/getValidationErrors';
 import SignInput from './components/SignInput';
@@ -31,6 +32,7 @@ interface SignInFormData {
   password: string;
 }
 function SignIn() {
+  const { handleSetFirstLaunch } = useAccess();
   const { signIn } = useAuth();
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
@@ -55,6 +57,7 @@ function SignIn() {
         await schema.validate(data, {
           abortEarly: false,
         });
+        handleSetFirstLaunch();
         await signIn({
           email: data.email,
           password: data.password,
@@ -72,7 +75,7 @@ function SignIn() {
         );
       }
     },
-    [signIn],
+    [handleSetFirstLaunch, signIn],
   );
   return (
     <KeyboardAvoidingView

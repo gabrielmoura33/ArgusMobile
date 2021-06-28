@@ -6,6 +6,8 @@ import React from 'react';
 
 import theme from '../../global/styles/theme';
 import FavoriteMusicStyle from '../../modules/User/screens/FavoriteMusicStyle';
+import SignIn from '../../modules/User/screens/SignIn';
+import SignUp from '../../modules/User/screens/SignUp';
 import UserIdentification from '../../modules/User/screens/UserIdentification';
 import ChooseState from '../screens/ChooseState';
 import { ProviderOnboarding } from '../screens/ProviderOnboarding';
