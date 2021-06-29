@@ -168,7 +168,13 @@ const Profile: React.FC = () => {
             </PowerButton>
 
             <UserAvatarButton onPress={handleUpdateAvatar}>
-              <UserAvatar source={{ uri: user.avatar_url }} />
+              <UserAvatar
+                source={{
+                  uri:
+                    user.avatar_url ||
+                    'https://liquipedia.net/commons/images/thumb/f/f0/Incognito_Logo_V3_Black_Border.png/600px-Incognito_Logo_V3_Black_Border.png',
+                }}
+              />
             </UserAvatarButton>
 
             <Form initialData={user} ref={formRef} onSubmit={handleSubmit}>

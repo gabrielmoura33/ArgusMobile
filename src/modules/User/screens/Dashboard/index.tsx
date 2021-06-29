@@ -58,7 +58,13 @@ function Dashboard() {
     <Container ref={containerRef} showsVerticalScrollIndicator={false}>
       <Header>
         <ButtonWrapper onPress={() => handleNavigate('ProfileStack')}>
-          <Avatar source={{ uri: user.avatar_url }} />
+          <Avatar
+            source={{
+              uri:
+                user.avatar_url ||
+                'https://liquipedia.net/commons/images/thumb/f/f0/Incognito_Logo_V3_Black_Border.png/600px-Incognito_Logo_V3_Black_Border.png',
+            }}
+          />
         </ButtonWrapper>
         <UserInfoWrapper>
           <UserWelcomeLabel>Bem vindo(a) de volta,</UserWelcomeLabel>

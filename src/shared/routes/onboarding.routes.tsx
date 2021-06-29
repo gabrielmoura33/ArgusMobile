@@ -45,6 +45,8 @@ const OnboardingRoutes: React.FC = () => (
       name="FavoriteMusicStyle"
       component={FavoriteMusicStyle}
     />
+    <OnboardingStack.Screen name="SignIn" component={SignIn} />
+    <OnboardingStack.Screen name="SignUp" component={SignUp} />
     <OnboardingStack.Screen name="SocialLogin" component={SocialLogin} />
   </OnboardingStack.Navigator>
 );

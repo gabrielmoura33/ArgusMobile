@@ -55,14 +55,16 @@ const AuthProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const [token, user] = await AsyncStorage.multiGet([
-        '@ArgusApp:token',
-        '@ArgusApp:user',
+        '@ArgusMobileApp:token',
+        '@ArgusMobileApp:user',
       ]);
 
       if (token[1] && user[1]) {
-        console.log(JSON.parse(user[1]));
         api.defaults.headers.Authorization = `Bearer ${token[1]}`;
-        setData({ token: token[1], user: JSON.parse(user[1]) });
+        setData({
+          token: token[1],
+          user: { ...JSON.parse(user[1]), signed: true },
+        });
       }
 
       setLoading(false);
@@ -79,8 +81,8 @@ const AuthProvider: React.FC = ({ children }) => {
     const { accesstoken: token } = response.headers;
 
     await AsyncStorage.multiSet([
-      ['@ArgusApp:token', token],
-      ['@ArgusApp:user', JSON.stringify(user)],
+      ['@ArgusMobileApp:token', token],
+      ['@ArgusMobileApp:user', JSON.stringify(user)],
     ]);
     api.defaults.headers.Authorization = `Bearer ${token}`;
     setData({ token, user: { ...user, signed: true } });
@@ -96,7 +98,10 @@ const AuthProvider: React.FC = ({ children }) => {
           '667162433343-2lns20c78qkvls7c893vr78s0636g3o0.apps.googleusercontent.com',
       });
 
-    await AsyncStorage.multiRemove(['@ArgusApp:user', '@ArgusApp:token']);
+    await AsyncStorage.multiRemove([
+      '@ArgusMobileApp:user',
+      '@ArgusMobileApp:token',
+    ]);
 
     setData({
       user: {},
@@ -110,7 +115,7 @@ const AuthProvider: React.FC = ({ children }) => {
         iosClientId:
           '667162433343-bm972dcjeoonb5tmhdho0jhnlm0th75k.apps.googleusercontent.com',
         androidClientId:
-          '667162433343-2lns20c78qkvls7c893vr78s0636g3o0.apps.googleusercontent.com',
+          '667162433343-bld0ra6qlelc4koho6v3dg0mon40bu5h.apps.googleusercontent.com',
         scopes: ['profile', 'email'],
       });
 
@@ -127,7 +132,7 @@ const AuthProvider: React.FC = ({ children }) => {
           '/sessions/social-auth/google',
           userLogged,
           {
-            headers: {
+            params: {
               social_auth_token: '0614d7c58853a0ef79480b33fe698982',
             },
           },
@@ -150,8 +155,8 @@ const AuthProvider: React.FC = ({ children }) => {
           signed: true,
         };
         await AsyncStorage.multiSet([
-          ['@ArgusApp:token', token],
-          ['@ArgusApp:user', JSON.stringify(googleUser)],
+          ['@ArgusMobileApp:token', token],
+          ['@ArgusMobileApp:user', JSON.stringify(googleUser)],
         ]);
 
         api.defaults.headers.Authorization = `Bearer ${token}`;

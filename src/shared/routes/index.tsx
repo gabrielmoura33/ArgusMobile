@@ -27,7 +27,7 @@ const Routes: React.FC = () => {
 
   if (netInfo.isConnected === false) return <NoConnection />;
 
-  if (isFirstLaunch === true && !user && !appState) {
+  if (isFirstLaunch === true && !user.name && appState === 'default') {
     return <OnboardingRoutes />;
   }
 

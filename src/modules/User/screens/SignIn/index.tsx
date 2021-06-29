@@ -69,10 +69,7 @@ function SignIn() {
           return;
         }
 
-        Alert.alert(
-          'Não autorizado',
-          'Verifique suas informaçōes e tente novamente',
-        );
+        Alert.alert('Ops...', 'Verifique suas informaçōes e tente novamente');
       }
     },
     [handleSetFirstLaunch, signIn],

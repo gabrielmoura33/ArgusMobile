@@ -58,7 +58,7 @@ function SignUp() {
 
         await api.post('/users', {
           ...data,
-          birth_date: user.birth_date || null,
+          birth_date: user.birth_date || undefined,
         });
 
         Alert.alert(
@@ -72,6 +72,7 @@ function SignUp() {
           formRef.current?.setErrors(errors);
           return;
         }
+        // console.log(err);
         Alert.alert('Erro na autenticação', 'Ocorreu um erro na autenticação');
       }
     },

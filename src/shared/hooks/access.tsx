@@ -24,9 +24,11 @@ const AccessProvider: React.FC = ({ children }) => {
   useEffect(() => {
     async function loadStoragedData(): Promise<void> {
       const firstAccessToken = await AsyncStorage.getItem(
-        `@ArgusApp:FirstAccessToken`,
+        `@ArgusMobileApp:FirstAccessToken`,
       );
-      const stateAccess = await AsyncStorage.getItem(`@ArgusApp:AppState`);
+      const stateAccess = await AsyncStorage.getItem(
+        `@ArgusMobileApp:AppState`,
+      );
 
       if (firstAccessToken) setIsFirstLaunch(false);
 
@@ -38,7 +40,10 @@ const AccessProvider: React.FC = ({ children }) => {
   const handleSetFirstLaunch = useCallback(async () => {
     try {
       setIsFirstLaunch(false);
-      await AsyncStorage.setItem('@ArgusApp:FirstAccessToken', String(false));
+      await AsyncStorage.setItem(
+        '@ArgusMobileApp:FirstAccessToken',
+        String(false),
+      );
     } catch (error) {
       throw new Error(error);
     }
@@ -46,7 +51,8 @@ const AccessProvider: React.FC = ({ children }) => {
 
   const handleChooseAppState = useCallback(async (state: AppStateOptions) => {
     try {
-      await AsyncStorage.setItem('@ArgusApp:AppState', state);
+      await AsyncStorage.setItem('@ArgusMobileApp:AppState', state);
+      setAppState('default');
     } catch (error) {
       throw new Error(error);
     }
