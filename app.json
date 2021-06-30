@@ -1,7 +1,9 @@
 {
+  "name": "Argus",
+  "displayName": "Argus",
   "expo": {
     "name": "Argus",
-    "slug": "mobile",
+    "slug": "argus",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,25 +12,17 @@
       "resizeMode": "contain",
       "backgroundColor": "#E06714"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": false
-    },
     "android": {
-      "package": "com.argus.argusapp",
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/icon.png",
-        "backgroundColor": "#E06714"
+      "package": "com.gabriel.moura.argus",
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyAjExNjCYvf4I9exqVY5MKNzV_wV_zDOSg",
+          "certificateHash": "054F7F3FA8190CEE014072AE9BAD7C3D3E35B8F7"
+        }
       }
-
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }

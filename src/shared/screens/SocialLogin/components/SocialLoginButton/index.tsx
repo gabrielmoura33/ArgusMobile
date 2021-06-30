@@ -23,7 +23,6 @@ function SocialLoginButton({
   svg: Svg,
   ...rest
 }: SocialLoginButtonProps) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [visible, _] = useState(type !== 'APPLE' || Platform.OS !== 'android');
 
   return (

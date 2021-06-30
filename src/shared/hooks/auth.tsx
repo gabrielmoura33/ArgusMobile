@@ -8,6 +8,7 @@ import React, {
   useEffect,
 } from 'react';
 
+import { GOOGLE_AUTH_CONFIGS } from '../configs/GoogleAuth';
 import api from '../services/api';
 
 interface User {
@@ -20,8 +21,6 @@ interface User {
   address: Address;
   signed?: boolean;
   birth_date?: Date;
-  isSocialSign?: boolean;
-  googleAccessToken?: string;
   isGoogleSign?: boolean;
 }
 interface Address {
@@ -41,6 +40,7 @@ interface AuthContextData {
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
   signInWithGoogle(): Promise<void>;
+  signInWithFacebook(): Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
@@ -89,86 +89,79 @@ const AuthProvider: React.FC = ({ children }) => {
   }, []);
 
   const signOut = useCallback(async () => {
-    if (data.user.isGoogleSign && data.user.googleAccessToken)
-      await Google.logOutAsync({
-        accessToken: data.user.googleAccessToken,
-        iosClientId:
-          '667162433343-bm972dcjeoonb5tmhdho0jhnlm0th75k.apps.googleusercontent.com',
-        androidClientId:
-          '667162433343-2lns20c78qkvls7c893vr78s0636g3o0.apps.googleusercontent.com',
-      });
+    try {
+      if (data.user.isGoogleSign) {
+        const accessToken = await AsyncStorage.getItem(
+          '@ArgusMobileApp:GoogleAccessToken',
+        );
 
-    await AsyncStorage.multiRemove([
-      '@ArgusMobileApp:user',
-      '@ArgusMobileApp:token',
-    ]);
+        if (accessToken) {
+          await Google.logOutAsync({
+            accessToken,
+            ...GOOGLE_AUTH_CONFIGS,
+          });
+        }
+      }
 
-    setData({
-      user: {},
-      token: '',
-    } as AuthState);
-  }, [data.user.googleAccessToken, data.user.isGoogleSign]);
+      await AsyncStorage.multiRemove([
+        '@ArgusMobileApp:user',
+        '@ArgusMobileApp:token',
+        '@ArgusMobileApp:GoogleAccessToken',
+      ]);
+
+      setData({
+        user: {},
+        token: '',
+      } as AuthState);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, [data.user.isGoogleSign]);
 
   async function signInWithGoogle() {
     try {
-      const result = await Google.logInAsync({
-        iosClientId:
-          '667162433343-bm972dcjeoonb5tmhdho0jhnlm0th75k.apps.googleusercontent.com',
-        androidClientId:
-          '667162433343-bld0ra6qlelc4koho6v3dg0mon40bu5h.apps.googleusercontent.com',
-        scopes: ['profile', 'email'],
-      });
+      const result = await Google.logInAsync(GOOGLE_AUTH_CONFIGS);
 
       if (result.type === 'success') {
-        const userLogged = {
-          email: result.user.email!,
-          name: result.user.name!,
-          avatar_url: result.user.photoUrl!,
-          password: String(result.user.id),
-          birth_date: data.user.birth_date,
-        };
-
+        const google_access_token = result.accessToken;
         const response = await api.post(
           '/sessions/social-auth/google',
-          userLogged,
+          {},
           {
-            params: {
-              social_auth_token: '0614d7c58853a0ef79480b33fe698982',
+            headers: {
+              Authorization: google_access_token,
             },
           },
         );
 
         const { user } = response.data;
         const { accesstoken: token } = response.headers;
-
-        const googleUser = {
-          id: user.id,
-          name: userLogged.name,
-          email: userLogged.email,
-          birth_date: userLogged.birth_date,
-          avatar_url: userLogged.avatar_url,
-          old_password: userLogged.password,
-          address: user.address,
-          googleAccessToken: result.accessToken,
-          isGoogleSign: true,
-          isProvider: false,
-          signed: true,
-        };
         await AsyncStorage.multiSet([
           ['@ArgusMobileApp:token', token],
-          ['@ArgusMobileApp:user', JSON.stringify(googleUser)],
+          ['@ArgusMobileApp:user', JSON.stringify(user)],
+          ['@ArgusMobileApp:GoogleAccessToken', google_access_token],
         ]);
 
         api.defaults.headers.Authorization = `Bearer ${token}`;
-        setData({ token, user: googleUser as any });
+        setData({ token, user: { ...user, isGoogleSign: true } });
       }
     } catch (error) {
       throw new Error(error);
     }
   }
+
+  async function signInWithFacebook() {}
+
   return (
     <AuthContext.Provider
-      value={{ user: data.user, loading, signIn, signOut, signInWithGoogle }}
+      value={{
+        user: data.user,
+        loading,
+        signIn,
+        signOut,
+        signInWithGoogle,
+        signInWithFacebook,
+      }}
     >
       {children}
     </AuthContext.Provider>
