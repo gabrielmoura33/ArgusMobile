@@ -13,6 +13,7 @@ interface AccessContextData {
   appState?: AppStateOptions;
   handleSetFirstLaunch(): Promise<void>;
   handleChooseAppState(state: AppStateOptions): Promise<void>;
+  handleStorageAppState(state: AppStateOptions): Promise<void>;
 }
 
 const AccessContext = createContext<AccessContextData>({} as AccessContextData);
@@ -51,8 +52,15 @@ const AccessProvider: React.FC = ({ children }) => {
 
   const handleChooseAppState = useCallback(async (state: AppStateOptions) => {
     try {
+      setAppState(state);
+    } catch (error) {
+      throw new Error(error);
+    }
+  }, []);
+
+  const handleStorageAppState = useCallback(async (state: AppStateOptions) => {
+    try {
       await AsyncStorage.setItem('@ArgusMobileApp:AppState', state);
-      setAppState('default');
     } catch (error) {
       throw new Error(error);
     }
@@ -65,6 +73,7 @@ const AccessProvider: React.FC = ({ children }) => {
         handleChooseAppState,
         appState,
         handleSetFirstLaunch,
+        handleStorageAppState,
       }}
     >
       {children}

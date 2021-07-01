@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import React, {
   createContext,
@@ -22,6 +23,7 @@ interface User {
   signed?: boolean;
   birth_date?: Date;
   isGoogleSign?: boolean;
+  isFacebookSign?: boolean;
 }
 interface Address {
   city: string;
@@ -143,14 +145,52 @@ const AuthProvider: React.FC = ({ children }) => {
         ]);
 
         api.defaults.headers.Authorization = `Bearer ${token}`;
-        setData({ token, user: { ...user, isGoogleSign: true } });
+        setData({ token, user: { ...user, isGoogleSign: true, signed: true } });
       }
     } catch (error) {
       throw new Error(error);
     }
   }
 
-  async function signInWithFacebook() {}
+  async function signInWithFacebook() {
+    try {
+      await Facebook.initializeAsync({
+        appId: '181620527263681',
+        appName: 'Argus',
+      });
+      const result = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile', 'email'],
+      });
+      if (result.type === 'success') {
+        const facebook_access_token = result.token;
+        const response = await api.post(
+          '/sessions/social-auth/facebook',
+          {},
+          {
+            headers: {
+              Authorization: facebook_access_token,
+            },
+          },
+        );
+
+        const { user } = response.data;
+        const { accesstoken: token } = response.headers;
+        await AsyncStorage.multiSet([
+          ['@ArgusMobileApp:token', token],
+          ['@ArgusMobileApp:user', JSON.stringify(user)],
+          ['@ArgusMobileApp:FacebookAccessToken', facebook_access_token],
+        ]);
+
+        api.defaults.headers.Authorization = `Bearer ${token}`;
+        setData({
+          token,
+          user: { ...user, isFacebookSign: true, signed: true },
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <AuthContext.Provider

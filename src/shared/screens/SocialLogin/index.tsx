@@ -20,17 +20,17 @@ import {
 } from './styles';
 
 type MediaProps = 'APPLE' | 'FACEBOOK' | 'GOOGLE' | 'LOGIN';
-const medias = ['APPLE', 'GOOGLE', 'LOGIN'] as MediaProps[];
+const medias = ['APPLE', 'GOOGLE', 'LOGIN', 'FACEBOOK'] as MediaProps[];
 
 const buttonIcon = {
   APPLE: AppleIcon,
-
+  FACEBOOK: FacebookIcon,
   GOOGLE: GoogleIcon,
   LOGIN: MailIcon,
 };
 function SocialLogin() {
   const navigation = useNavigation();
-  const { user, signInWithGoogle } = useAuth();
+  const { user, signInWithGoogle, signInWithFacebook } = useAuth();
   const { handleSetFirstLaunch } = useAccess();
   async function handleSocialAuth(type: MediaProps) {
     switch (type) {
@@ -39,6 +39,8 @@ function SocialLogin() {
       case 'GOOGLE':
         await signInWithGoogle();
         return handleSetFirstLaunch();
+      case 'FACEBOOK':
+        return signInWithFacebook();
       default:
         return navigation.navigate('SignIn');
     }
@@ -68,11 +70,11 @@ function SocialLogin() {
           </SocialMediaButtonWrapper>
         )}
       />
-      {/* {user.name.length > 0 && (
+      {user.name && (
         <SignLaterWrapper>
           <SignLaterLabel>Entrar Depois</SignLaterLabel>
         </SignLaterWrapper>
-      )} */}
+      )}
     </Container>
   );
 }
