@@ -111,7 +111,9 @@ function Dashboard() {
       <RelatedProviderList>
         {userlist.map(el => (
           <RelatedProviderCardWrapper key={el}>
-            <RelatedProviderCard />
+            <RelatedProviderCard
+              onPress={() => handleNavigate('ProviderProfile')}
+            />
           </RelatedProviderCardWrapper>
         ))}
       </RelatedProviderList>

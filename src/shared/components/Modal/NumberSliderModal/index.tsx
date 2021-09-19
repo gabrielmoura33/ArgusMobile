@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import Slider from '@react-native-community/slider';
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
@@ -12,6 +12,11 @@ interface NumberSliderModalProps {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   svg: React.FC<SvgProps>;
   title: string;
+  label: string;
+  sliderMaxValue: number;
+  sliderMinValue: number;
+  value: number;
+  setSliderValue: React.Dispatch<React.SetStateAction<number>>;
 }
 
 function NumberSliderModal({
@@ -19,9 +24,12 @@ function NumberSliderModal({
   setVisible,
   svg: Svg,
   title,
+  label,
+  sliderMaxValue,
+  sliderMinValue,
+  value,
+  setSliderValue,
 }: NumberSliderModalProps) {
-  const [sliderValue, setSliderValue] = useState(0);
-
   function handleCloseModal() {
     setVisible(false);
   }
@@ -36,13 +44,17 @@ function NumberSliderModal({
           </ModalHeader>
           <Slider
             style={{ width: '100%', height: 40 }}
-            minimumValue={60}
-            maximumValue={300}
+            minimumValue={sliderMinValue}
+            maximumValue={sliderMaxValue}
             minimumTrackTintColor="#E06714"
             maximumTrackTintColor="#181A20"
-            onValueChange={value => setSliderValue(Math.floor(value))}
+            onValueChange={valueChange =>
+              setSliderValue(Math.floor(valueChange))
+            }
           />
-          <Label>{sliderValue} Minutos</Label>
+          <Label>
+            {value} {label}
+          </Label>
           <ActionButton onPress={handleCloseModal}>Confirmar</ActionButton>
         </ModalContent>
       </Container>

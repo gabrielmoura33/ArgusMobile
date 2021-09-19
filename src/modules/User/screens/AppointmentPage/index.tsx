@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import AmplifierIcon from '../../../../assets/icons/amplifier.svg';
 import ClockIcon from '../../../../assets/icons/clock2.svg';
 import PeopleIcon from '../../../../assets/icons/people.svg';
+import weddingSrc from '../../../../assets/images/casamento.png';
 import ActionButton from '../../../../shared/components/ActionButton';
 import { AndroidCalendarComponent } from '../../../../shared/components/CalendarComponent/components/AndroidCalendarComponent';
 import ConfirmationModal from '../../../../shared/components/Modal/ConfirmationModal';
@@ -34,6 +35,12 @@ function AppointmentPage() {
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [equipmentModalVisible, setEquipmentModalVisible] = useState(false);
 
+  const [selectedServiceIndex, setSelectedServiceIndex] = useState<number>();
+
+  const [audienceValue, setAudienceValue] = useState<number>(0);
+  const [durationValue, setDurationValue] = useState<number>(0);
+  const [equipmentValue, setEquipmentValue] = useState<boolean>(false);
+
   return (
     <Wrapper showsVerticalScrollIndicator={false}>
       <HeaderSinglePage title="Agendamento">
@@ -46,9 +53,16 @@ function AppointmentPage() {
           }}
           showsHorizontalScrollIndicator={false}
         >
-          <ServiceSelectComponent />
-          <ServiceSelectComponent />
-          <ServiceSelectComponent />
+          {[1, 2, 3, 4, 5, 6].map((el, index) => {
+            return (
+              <ServiceSelectComponent
+                name="Casamento"
+                image={weddingSrc}
+                isActive={selectedServiceIndex === index}
+                onPress={() => setSelectedServiceIndex(index)}
+              />
+            );
+          })}
         </ServicesWrapper>
 
         <ServiceSelectLabel>Selecione os detalhes serviço</ServiceSelectLabel>
@@ -63,18 +77,21 @@ function AppointmentPage() {
             title="Público"
             info="400 Pessoas"
             handleClick={() => setAudienceModalVisible(true)}
+            isActive={audienceValue !== 0}
           />
           <ServicesBadgeComponent
             svg={ClockIcon}
             title="Duração"
             info="180 Minutos"
             handleClick={() => setTimeModalVisible(true)}
+            isActive={durationValue !== 0}
           />
           <ServicesBadgeComponent
             svg={AmplifierIcon}
             title="Equipamento Alugado"
             info="+ R$ 100,00"
             handleClick={() => setEquipmentModalVisible(true)}
+            isActive={equipmentValue}
           />
         </ServicesDetailWrapper>
 
@@ -135,19 +152,30 @@ function AppointmentPage() {
         visible={timeModalVisible}
         setVisible={setTimeModalVisible}
         svg={ClockIcon}
+        label="Minutos"
         title="Informe a duração desejada para a apresentação"
+        value={durationValue}
+        setSliderValue={setDurationValue}
+        sliderMaxValue={400}
+        sliderMinValue={20}
       />
       <NumberSliderModal
         visible={audienceModalVisible}
         setVisible={setAudienceModalVisible}
         svg={PeopleIcon}
         title="Informe a quantidade de pessoas para a apresentação"
+        value={audienceValue}
+        setSliderValue={setAudienceValue}
+        sliderMaxValue={400}
+        sliderMinValue={20}
+        label="Pessoas"
       />
       <ConfirmationModal
         visible={equipmentModalVisible}
         setVisible={setEquipmentModalVisible}
         svg={AmplifierIcon}
         title="O equipamento de som será alugado pelo próprio artista?"
+        setValue={setEquipmentValue}
       />
     </Wrapper>
   );

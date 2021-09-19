@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
+import { RectButtonProps } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import providerSrc from '../../../../assets/IMG_0384.jpeg';
@@ -19,9 +20,10 @@ import {
   AvailableTime,
 } from './styles';
 
-function RelatedProviderCard() {
+interface RelatedProviderCardProps extends RectButtonProps {}
+function RelatedProviderCard({ ...rest }: RelatedProviderCardProps) {
   return (
-    <Container>
+    <Container {...rest}>
       <ProviderAvatar
         source={{ uri: 'https://thispersondoesnotexist.com/image' }}
       />

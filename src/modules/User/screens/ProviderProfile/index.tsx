@@ -1,4 +1,5 @@
-import React from 'react';
+import { useNavigation, useScrollToTop } from '@react-navigation/native';
+import React, { useCallback } from 'react';
 import { FlatList } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -26,6 +27,13 @@ interface ProviderProfileProps {
 }
 
 function ProviderProfile() {
+  const navigation = useNavigation();
+  const handleNavigate = useCallback(
+    (routeName: string) => {
+      return navigation.navigate(routeName);
+    },
+    [navigation],
+  );
   return (
     <Wrapper>
       <BackgroundImage source={providerBackgroundSrc} />
@@ -53,7 +61,9 @@ function ProviderProfile() {
             />
           </ServiceListWrapper>
           <ButtonsWrapper>
-            <ActionButtonCustom onPress={() => {}}>
+            <ActionButtonCustom
+              onPress={() => handleNavigate('CreateAppointment')}
+            >
               Contratar
             </ActionButtonCustom>
             <IconButtonCustom svg={ShareIcon} />

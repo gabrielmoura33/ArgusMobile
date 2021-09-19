@@ -1,16 +1,25 @@
-import React, { ReactNode } from 'react';
-import { Text } from 'react-native';
+/* eslint-disable react/require-default-props */
+import React from 'react';
+import { ImageSourcePropType } from 'react-native';
+import { RectButtonProps } from 'react-native-gesture-handler';
 
-import weddingSrc from '../../../../../../assets/images/casamento.png';
 import { BadgeTitle, Container, ImageBadge } from './styles';
 
-interface ServiceSelectComponentProps {}
+interface ServiceSelectComponentProps extends RectButtonProps {
+  name: string;
+  image: ImageSourcePropType;
+  isActive?: boolean;
+}
 
-function ServiceSelectComponent() {
+function ServiceSelectComponent({
+  name,
+  image,
+  ...rest
+}: ServiceSelectComponentProps) {
   return (
-    <Container>
-      <ImageBadge source={weddingSrc} />
-      <BadgeTitle>Casamento</BadgeTitle>
+    <Container {...rest}>
+      <ImageBadge source={image} />
+      <BadgeTitle>{name}</BadgeTitle>
     </Container>
   );
 }

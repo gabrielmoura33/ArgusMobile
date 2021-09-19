@@ -48,7 +48,7 @@ export default function App() {
             barStyle="light-content"
             backgroundColor={theme.colors.Secondary}
           />
-          <AppointmentPage />
+          <Routes />
         </ThemeProvider>
       </AppProvider>
     </NavigationContainer>

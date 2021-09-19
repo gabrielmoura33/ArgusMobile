@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import Slider from '@react-native-community/slider';
-import React, { useState } from 'react';
+
+import React from 'react';
 import { Modal } from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
-import ActionButton from '../../ActionButton';
 import {
   Container,
   Title,
@@ -19,6 +18,7 @@ interface ConfirmationModalProps {
   setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   svg: React.FC<SvgProps>;
   title: string;
+  setValue: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function ConfirmationModal({
@@ -26,11 +26,15 @@ function ConfirmationModal({
   setVisible,
   svg: Svg,
   title,
+  setValue,
 }: ConfirmationModalProps) {
-  const [sliderValue, setSliderValue] = useState(0);
-
   function handleCloseModal() {
     setVisible(false);
+  }
+
+  function handleChooseValue(value: boolean) {
+    setValue(value);
+    handleCloseModal();
   }
 
   return (
@@ -42,10 +46,13 @@ function ConfirmationModal({
             <Title>{title}</Title>
           </ModalHeader>
           <ConfirmationWrapper>
-            <CustomActionButton onPress={handleCloseModal}>
+            <CustomActionButton onPress={() => handleChooseValue(true)}>
               Sim
             </CustomActionButton>
-            <CustomActionButton isSecondary onPress={handleCloseModal}>
+            <CustomActionButton
+              isSecondary
+              onPress={() => handleChooseValue(false)}
+            >
               Não
             </CustomActionButton>
           </ConfirmationWrapper>
