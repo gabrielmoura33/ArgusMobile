@@ -1,12 +1,13 @@
 // import DateTimePicker from '@react-native-community/datetimepicker';
-import React from 'react';
+import React, { useState } from 'react';
 
 import AmplifierIcon from '../../../../assets/icons/amplifier.svg';
 import ClockIcon from '../../../../assets/icons/clock2.svg';
 import PeopleIcon from '../../../../assets/icons/people.svg';
-import theme from '../../../../global/styles/theme';
 import ActionButton from '../../../../shared/components/ActionButton';
 import { AndroidCalendarComponent } from '../../../../shared/components/CalendarComponent/components/AndroidCalendarComponent';
+import ConfirmationModal from '../../../../shared/components/Modal/ConfirmationModal';
+import NumberSliderModal from '../../../../shared/components/Modal/NumberSliderModal';
 import HeaderSinglePage from '../../../../shared/screens/HeaderSinglePage';
 import { ServiceSelectComponent } from './components/ServiceSelectComponent';
 import { ServicesBadgeComponent } from './components/ServicesBadgeComponent';
@@ -29,8 +30,12 @@ import {
 interface AppointmentPageProps {}
 
 function AppointmentPage() {
+  const [audienceModalVisible, setAudienceModalVisible] = useState(false);
+  const [timeModalVisible, setTimeModalVisible] = useState(false);
+  const [equipmentModalVisible, setEquipmentModalVisible] = useState(false);
+
   return (
-    <Wrapper>
+    <Wrapper showsVerticalScrollIndicator={false}>
       <HeaderSinglePage title="Agendamento">
         <ServiceSelectLabel>Selecione o serviço</ServiceSelectLabel>
 
@@ -57,19 +62,19 @@ function AppointmentPage() {
             svg={PeopleIcon}
             title="Público"
             info="400 Pessoas"
-            handleClick={() => {}}
+            handleClick={() => setAudienceModalVisible(true)}
           />
           <ServicesBadgeComponent
             svg={ClockIcon}
             title="Duração"
             info="180 Minutos"
-            handleClick={() => {}}
+            handleClick={() => setTimeModalVisible(true)}
           />
           <ServicesBadgeComponent
             svg={AmplifierIcon}
             title="Equipamento Alugado"
             info="+ R$ 100,00"
-            handleClick={() => {}}
+            handleClick={() => setEquipmentModalVisible(true)}
           />
         </ServicesDetailWrapper>
 
@@ -125,6 +130,25 @@ function AppointmentPage() {
           <ActionButton>Próximo</ActionButton>
         </NextButtonWrapper>
       </HeaderSinglePage>
+
+      <NumberSliderModal
+        visible={timeModalVisible}
+        setVisible={setTimeModalVisible}
+        svg={ClockIcon}
+        title="Informe a duração desejada para a apresentação"
+      />
+      <NumberSliderModal
+        visible={audienceModalVisible}
+        setVisible={setAudienceModalVisible}
+        svg={PeopleIcon}
+        title="Informe a quantidade de pessoas para a apresentação"
+      />
+      <ConfirmationModal
+        visible={equipmentModalVisible}
+        setVisible={setEquipmentModalVisible}
+        svg={AmplifierIcon}
+        title="O equipamento de som será alugado pelo próprio artista?"
+      />
     </Wrapper>
   );
 }
