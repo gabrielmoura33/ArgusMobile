@@ -27,7 +27,7 @@ export const Icon = styled(Feather)`
   color: ${({ theme }) => theme.colors.Neutral100};
 `;
 export const Title = styled.Text`
-  font-family: ${({ theme }) => theme.fonts.RobotoMedium};
+  font-family: ${({ theme }) => theme.fonts.RobotoSlabMedium};
 
   font-size: ${RFValue(25)}px;
 

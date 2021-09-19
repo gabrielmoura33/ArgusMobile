@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://argusapp.gabrielmoura.website',
+  baseURL: process.env.API_URL,
 });
 
 export default api;
