@@ -1,14 +1,23 @@
 import { RectButton } from 'react-native-gesture-handler';
 import { RFValue } from 'react-native-responsive-fontsize';
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
 
-export const Container = styled(RectButton)`
+interface ActionButtonProps {
+  isSecondary?: boolean;
+}
+export const Container = styled(RectButton)<ActionButtonProps>`
   height: ${RFValue(50)}px;
   width: 100%;
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.primary};
   border-radius: 10px;
+
+  ${props =>
+    props.isSecondary &&
+    css`
+      background-color: #db4437;
+    `}
 `;
 
 export const Title = styled.Text`

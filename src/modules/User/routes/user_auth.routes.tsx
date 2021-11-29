@@ -6,14 +6,9 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import theme from '../../../global/styles/theme';
-import ChooseState from '../../../shared/screens/ChooseState';
 import SocialLogin from '../../../shared/screens/SocialLogin';
-import UserBirthDate from '../../../shared/screens/UserBirthDate';
-import FavoriteMusicStyle from '../screens/FavoriteMusicStyle';
 import SignIn from '../screens/SignIn';
 import SignUp from '../screens/SignUp';
-import UserIdentification from '../screens/UserIdentification';
-import UserDrawerNavigator from './navigation/user_drawernavigator';
 
 const UserAuth = createStackNavigator();
 

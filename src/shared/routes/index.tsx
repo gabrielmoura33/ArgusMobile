@@ -5,6 +5,7 @@ import { ActivityIndicator, View } from 'react-native';
 import theme from '../../global/styles/theme';
 import { ProviderAuthRoutes } from '../../modules/Providers/routes/providers_auth.routes';
 import UserBottomTabNavigator from '../../modules/User/routes/navigation/user_tabnavigator';
+import UserOrganizerRoutes from '../../modules/User/routes/user.organizer.routes';
 import { UserAuthRoutes } from '../../modules/User/routes/user_auth.routes';
 import { useAccess } from '../hooks/access';
 import { useAuth } from '../hooks/auth';
@@ -32,7 +33,7 @@ const Routes: React.FC = () => {
   }
 
   if (user && user.signed) {
-    return <UserBottomTabNavigator />;
+    return <UserOrganizerRoutes />;
   }
 
   switch (appState) {

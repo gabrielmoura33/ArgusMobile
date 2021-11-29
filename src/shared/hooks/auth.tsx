@@ -128,7 +128,7 @@ const AuthProvider: React.FC = ({ children }) => {
       if (result.type === 'success') {
         const google_access_token = result.accessToken;
         const response = await api.post(
-          '/sessions/social-auth/google',
+          'api/v1/sessions/social-auth/google',
           {},
           {
             headers: {
@@ -165,7 +165,7 @@ const AuthProvider: React.FC = ({ children }) => {
       if (result.type === 'success') {
         const facebook_access_token = result.token;
         const response = await api.post(
-          '/sessions/social-auth/facebook',
+          'api/v1/sessions/social-auth/facebook',
           {},
           {
             headers: {
