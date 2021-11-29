@@ -68,6 +68,8 @@ function SignIn() {
           formRef.current?.setErrors(errors);
           return;
         }
+        // console.log(Object.keys(err.request.status));
+        // if (err.request.status === 400) Alert.alert('Ops...', 'Verifique suas informaçōes e tente novamente');
 
         Alert.alert('Ops...', 'Verifique suas informaçōes e tente novamente');
       }
