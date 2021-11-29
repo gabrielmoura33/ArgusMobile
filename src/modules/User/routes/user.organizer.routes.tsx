@@ -6,6 +6,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import theme from '../../../global/styles/theme';
+import AppointmentCreated from '../screens/AppointmentCreated';
 import { AppointmentPage } from '../screens/AppointmentPage';
 import ProviderProfile from '../screens/ProviderProfile';
 import UserBottomTabNavigator from './navigation/user_tabnavigator';
@@ -38,6 +39,16 @@ const UserOrganizerRoutes: React.FC = () => (
     <UserOrganizer.Screen
       name="CreateAppointment"
       component={AppointmentPage}
+      options={{
+        cardStyleInterpolator:
+          Platform.OS === 'ios'
+            ? CardStyleInterpolators.forHorizontalIOS
+            : CardStyleInterpolators.forFadeFromBottomAndroid,
+      }}
+    />
+    <UserOrganizer.Screen
+      name="AppointmentCreated"
+      component={AppointmentCreated}
       options={{
         cardStyleInterpolator:
           Platform.OS === 'ios'

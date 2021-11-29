@@ -1,11 +1,12 @@
 import { useNavigation, useScrollToTop } from '@react-navigation/native';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FlatList } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import ShareIcon from '../../../../assets/icons/share.svg';
 import providerBackgroundSrc from '../../../../assets/tmp/background-provider.png';
-import { Provider } from '../../../../shared/entities/Provider';
+import VideoModal from '../../../../shared/components/Modal/VideoModal';
+import { useProviderContext } from '../../hooks/providers.context';
 import { ProviderDetailCard } from './components/ProviderDetailCard';
 import { ServiceCard } from './components/ServiceCard';
 import {
@@ -22,11 +23,9 @@ import {
   IconButtonCustom,
 } from './styles';
 
-interface ProviderProfileProps {
-  provider: Provider;
-}
-
 function ProviderProfile() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { selectedProvider } = useProviderContext();
   const navigation = useNavigation();
   const handleNavigate = useCallback(
     (routeName: string) => {
@@ -34,18 +33,20 @@ function ProviderProfile() {
     },
     [navigation],
   );
+
   return (
     <Wrapper>
       <BackgroundImage source={providerBackgroundSrc} />
       <Container>
         <ProviderProfileWrapper>
-          <ProviderDetailCard />
+          <ProviderDetailCard onPress={() => setIsModalOpen(true)} />
         </ProviderProfileWrapper>
         <ServicesWrapper>
           <ServiceLabel>Meus Serviços</ServiceLabel>
           <ServiceListWrapper>
             <FlatList
-              data={[1, 2, 3, 4, 5]}
+              data={selectedProvider.services}
+              keyExtractor={el => el.id}
               style={{
                 height: RFValue(290),
                 position: 'absolute',
@@ -53,9 +54,9 @@ function ProviderProfile() {
                 marginBottom: 200,
               }}
               showsVerticalScrollIndicator={false}
-              renderItem={() => (
+              renderItem={el => (
                 <ServiceCardWrapper>
-                  <ServiceCard />
+                  <ServiceCard service={el.item} />
                 </ServiceCardWrapper>
               )}
             />
@@ -70,6 +71,11 @@ function ProviderProfile() {
           </ButtonsWrapper>
         </ServicesWrapper>
       </Container>
+      <VideoModal
+        visible={isModalOpen}
+        setVisible={setIsModalOpen}
+        play={isModalOpen}
+      />
     </Wrapper>
   );
 }

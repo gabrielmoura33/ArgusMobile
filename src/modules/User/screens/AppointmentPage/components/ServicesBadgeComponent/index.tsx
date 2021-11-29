@@ -9,7 +9,7 @@ interface ServicesBadgeComponentProps {
   title: string;
   info: string;
   isActive?: boolean;
-  handleClick: () => void;
+  handleClick: any;
 }
 
 function ServicesBadgeComponent({

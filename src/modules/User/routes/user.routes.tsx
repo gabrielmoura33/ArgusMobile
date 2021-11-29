@@ -6,11 +6,9 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import theme from '../../../global/styles/theme';
-import { AppointmentPage } from '../screens/AppointmentPage';
 import CategoryList from '../screens/CategoryList';
 import Dashboard from '../screens/Dashboard';
 import Profile from '../screens/ProfileScreen';
-import ProviderProfile from '../screens/ProviderProfile';
 import SearchScreen from '../screens/SearchScreen';
 
 const User = createStackNavigator();

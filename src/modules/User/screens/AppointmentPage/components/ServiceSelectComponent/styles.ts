@@ -6,10 +6,10 @@ interface ContainerProps {
 }
 export const Container = styled(RectButton)<ContainerProps>`
   height: 48px;
-  width: 148px;
+  width: 158px;
   flex-direction: row;
   align-items: center;
-  padding: 10px;
+  /* padding: 0 10px 0 10px; */
   border-radius: 10px;
   margin-right: 16px;
   background: ${props => (props.isActive ? '#E06714' : '#262A34')};
@@ -19,7 +19,7 @@ export const ImageBadge = styled.Image`
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  margin-right: 12px;
+  margin: 0 12px;
 `;
 
 export const BadgeTitle = styled.Text`
@@ -27,4 +27,5 @@ export const BadgeTitle = styled.Text`
   color: ${({ theme }) => theme.colors.Neutral100};
   font-size: 14px;
   line-height: 18px;
+  max-width: 90px;
 `;

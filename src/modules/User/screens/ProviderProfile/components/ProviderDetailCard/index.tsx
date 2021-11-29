@@ -1,8 +1,10 @@
 import React from 'react';
+import { RectButtonProps } from 'react-native-gesture-handler';
 
 import FavoritesIcon from '../../../../../../assets/icons/favorite.svg';
 import StarCommentsIcon from '../../../../../../assets/icons/star-coments.svg';
 import StarOutlinedIcon from '../../../../../../assets/icons/star-outlined.svg';
+import { useProviderContext } from '../../../../hooks/providers.context';
 import {
   CategoryTitle,
   Container,
@@ -16,31 +18,31 @@ import {
   Legend,
 } from './styles';
 
-function ProviderDetailCard() {
+interface ProviderDetailCardProps extends RectButtonProps {}
+function ProviderDetailCard({ ...rest }: ProviderDetailCardProps) {
+  const { selectedProvider } = useProviderContext();
   return (
-    <Container>
-      <ProviderAvatar
-        source={{ uri: 'https://thispersondoesnotexist.com/image' }}
-      />
+    <Container {...rest}>
+      <ProviderAvatar source={{ uri: selectedProvider.avatar_url }} />
       <ContentContainer>
         <ProviderInfoWrapper>
-          <ProviderName>John Doe</ProviderName>
+          <ProviderName>{selectedProvider.name}</ProviderName>
           <CategoryTitle>Banda de casamento</CategoryTitle>
         </ProviderInfoWrapper>
         <ProviderInfoFooter>
           <StatisticsWrapper>
             <FavoritesIcon width={20} height={20} />
-            <Label>5.0</Label>
+            <Label>{selectedProvider.providerInfo.reviews}</Label>
             <Legend>Reviews</Legend>
           </StatisticsWrapper>
           <StatisticsWrapper>
             <StarOutlinedIcon width={20} height={20} />
-            <Label>3.000</Label>
+            <Label>{selectedProvider.providerInfo.favorites}</Label>
             <Legend>Favoritos</Legend>
           </StatisticsWrapper>
           <StatisticsWrapper>
             <StarCommentsIcon width={20} height={20} />
-            <Label>30</Label>
+            <Label>{selectedProvider.providerInfo.average_review}</Label>
             <Legend>Serviços</Legend>
           </StatisticsWrapper>
         </ProviderInfoFooter>

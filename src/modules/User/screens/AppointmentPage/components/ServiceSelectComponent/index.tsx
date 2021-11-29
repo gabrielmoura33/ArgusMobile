@@ -19,7 +19,7 @@ function ServiceSelectComponent({
   return (
     <Container {...rest}>
       <ImageBadge source={image} />
-      <BadgeTitle>{name}</BadgeTitle>
+      <BadgeTitle numberOfLines={1}>{name}</BadgeTitle>
     </Container>
   );
 }

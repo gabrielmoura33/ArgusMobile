@@ -1,15 +1,20 @@
-// import DateTimePicker from '@react-native-community/datetimepicker';
-import React, { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import { getDate, getMonth, getYear, format, getDaysInMonth } from 'date-fns';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { Alert } from 'react-native';
 
 import AmplifierIcon from '../../../../assets/icons/amplifier.svg';
 import ClockIcon from '../../../../assets/icons/clock2.svg';
+import ParkIcon from '../../../../assets/icons/park.svg';
 import PeopleIcon from '../../../../assets/icons/people.svg';
-import weddingSrc from '../../../../assets/images/casamento.png';
 import ActionButton from '../../../../shared/components/ActionButton';
 import { AndroidCalendarComponent } from '../../../../shared/components/CalendarComponent/components/AndroidCalendarComponent';
 import ConfirmationModal from '../../../../shared/components/Modal/ConfirmationModal';
 import NumberSliderModal from '../../../../shared/components/Modal/NumberSliderModal';
+import { Service } from '../../../../shared/entities/Services';
 import HeaderSinglePage from '../../../../shared/screens/HeaderSinglePage';
+import api from '../../../../shared/services/api';
+import { useProviderContext } from '../../hooks/providers.context';
 import { ServiceSelectComponent } from './components/ServiceSelectComponent';
 import { ServicesBadgeComponent } from './components/ServicesBadgeComponent';
 import {
@@ -28,19 +33,210 @@ import {
   NextButtonWrapper,
 } from './styles';
 
-interface AppointmentPageProps {}
-
+interface DayAvailability {
+  hour: number;
+  available: boolean;
+}
+interface MonthAvailability {
+  day: number;
+  available: boolean;
+}
 function AppointmentPage() {
+  const { navigate } = useNavigation();
+  const { selectedProvider } = useProviderContext();
   const [audienceModalVisible, setAudienceModalVisible] = useState(false);
   const [timeModalVisible, setTimeModalVisible] = useState(false);
   const [equipmentModalVisible, setEquipmentModalVisible] = useState(false);
+  const [ambientModalVisible, setAmbientModalVisible] = useState(false);
 
-  const [selectedServiceIndex, setSelectedServiceIndex] = useState<number>();
-
-  const [audienceValue, setAudienceValue] = useState<number>(0);
-  const [durationValue, setDurationValue] = useState<number>(0);
+  const [audienceValue, setAudienceValue] = useState<number>(10);
+  const [durationValue, setDurationValue] = useState<number>(30);
   const [equipmentValue, setEquipmentValue] = useState<boolean>(false);
+  const [ambientValue, setAmbientValue] = useState<boolean>(false);
 
+  const [audienceMaxValue, setAudienceMaxValue] = useState<number>(0);
+  const [durationMaxValue, setDurationMaxValue] = useState<number>(0);
+
+  const [audienceMinValue, setAudienceMinValue] = useState<number>(0);
+  const [durationMinValue, setDurationMinValue] = useState<number>(0);
+
+  const [selectedService, setSelectedService] = useState<Service>(
+    selectedProvider.services ? selectedProvider.services[0] : ({} as Service),
+  );
+
+  const [selectedHourId, setSelectedHourId] = useState<number>(0);
+
+  const addonsRenderProps = {
+    PUBLIC: {
+      svg: PeopleIcon,
+      title: 'Público',
+      info: `${audienceValue} Pessoas`,
+      handleClick: (maxValue: number, minValue: number) => {
+        setAudienceModalVisible(true);
+        setAudienceMaxValue(maxValue);
+        setAudienceMinValue(minValue);
+      },
+      isActive: audienceValue > 10,
+      price: 0,
+    },
+    DURATION: {
+      svg: ClockIcon,
+      title: 'Duração',
+      info: `${durationValue} Minutos`,
+      handleClick: (maxValue: number, minValue: number) => {
+        setTimeModalVisible(true);
+        setDurationMaxValue(maxValue);
+        setDurationMinValue(minValue);
+      },
+      isActive: durationValue > 30,
+      price: 0,
+    },
+    EQUIPMENT: {
+      svg: AmplifierIcon,
+      title: 'Equipamento Alugado',
+      info: `+ R$ 100,00`,
+      handleClick: () => setEquipmentModalVisible(true),
+      isActive: equipmentValue,
+      price: 0,
+    },
+    AMBIENT: {
+      svg: ParkIcon,
+      title: 'Ambiente Aberto',
+      info: `+ R$ 100,00`,
+      handleClick: () => setAmbientModalVisible(true),
+      isActive: ambientValue,
+      price: 0,
+    },
+  };
+
+  const [month, setMonth] = useState(getMonth(new Date()) + 1);
+  const [day, setDay] = useState(getDate(new Date()));
+  const [year, setYear] = useState(getYear(new Date()));
+  const [unavailableDays, setUnavailabledays] = useState<Date[]>([]);
+
+  useEffect(() => {
+    async function fetchMonthAvailability() {
+      try {
+        const response = await api.post(
+          `api/v1/providers/${selectedProvider.id}/month-availability`,
+          {
+            month,
+            year,
+          },
+        );
+        const { data } = response;
+        const unavailableDaysConvert = data
+          .filter((el: any) => !el.available)
+          .map((el: MonthAvailability) => new Date(year, month - 1, el.day));
+        // const beforeDates = getDaysInMonth(new Date(year, month - 1, day));
+        // const numberValue = beforeDates - day;
+        // for (let index = 1; index < numberValue; index++) {
+        //   unavailableDaysConvert.push(new Date(year, month - 1, index));
+        // }
+        // console.log(beforeDates);
+        setUnavailabledays(unavailableDaysConvert);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchMonthAvailability();
+  }, [month, selectedProvider.id, year]);
+
+  function handleChangeDate(date: any) {
+    const selectedMonth = getMonth(Date.parse(date));
+    const selectedDay = getDate(Date.parse(date));
+    const selectedYear = getYear(Date.parse(date));
+
+    setMonth(selectedMonth + 1);
+    setDay(selectedDay);
+    setYear(selectedYear);
+  }
+
+  const [availableHours, setAvailableHours] = useState<DayAvailability[]>([]);
+  useEffect(() => {
+    async function fetchDayHoursAvailability() {
+      try {
+        const response = await api.post(
+          `api/v1/providers/${selectedProvider.id}/day-availability`,
+          {
+            month,
+            year,
+            day,
+          },
+        );
+        const { data } = response;
+        setAvailableHours(data.filter((el: DayAvailability) => el.available));
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchDayHoursAvailability();
+  }, [day, month, selectedProvider.id, year]);
+
+  const morningAvailability = useMemo(() => {
+    return availableHours
+      .filter(({ hour }) => hour < 12)
+      .map(({ hour, available }) => ({
+        hour,
+        hourFormatted: format(new Date().setHours(hour), 'HH:00'),
+        available,
+      }));
+  }, [availableHours]);
+
+  const afternoonAvailability = useMemo(() => {
+    return availableHours
+      .filter(({ hour }) => hour >= 12 && hour < 18)
+      .map(({ hour, available }) => ({
+        hour,
+        hourFormatted: format(new Date().setHours(hour), 'HH:00'),
+        available,
+      }));
+  }, [availableHours]);
+
+  const nightAvailability = useMemo(() => {
+    return availableHours
+      .filter(({ hour }) => hour >= 18)
+      .map(({ hour, available }) => ({
+        hour,
+        hourFormatted: format(new Date().setHours(hour), 'HH:00'),
+        available,
+      }));
+  }, [availableHours]);
+
+  const handleCreateAppointment = useCallback(async () => {
+    try {
+      const date = new Date(year, month - 1, day);
+
+      date.setHours(selectedHourId);
+      date.setMinutes(0);
+
+      await api.post('/api/v1/appointments', {
+        provider_id: selectedProvider.id,
+        date,
+        service_id: selectedService.id,
+        scheduled_time: 60,
+        open_environment: true,
+        rented_equipment: true,
+      });
+
+      navigate('AppointmentCreated', { date: date.getTime() });
+    } catch (err) {
+      console.log(err);
+
+      Alert.alert(
+        'Erro ao criar agendamento',
+        'Ocorreu ao tentar criar o agendamento, tente novamente',
+      );
+    }
+  }, [
+    day,
+    month,
+    navigate,
+    selectedHourId,
+    selectedProvider.id,
+    selectedService,
+    year,
+  ]);
   return (
     <Wrapper showsVerticalScrollIndicator={false}>
       <HeaderSinglePage title="Agendamento">
@@ -53,13 +249,14 @@ function AppointmentPage() {
           }}
           showsHorizontalScrollIndicator={false}
         >
-          {[1, 2, 3, 4, 5, 6].map((el, index) => {
+          {selectedProvider.services?.map(el => {
             return (
               <ServiceSelectComponent
-                name="Casamento"
-                image={weddingSrc}
-                isActive={selectedServiceIndex === index}
-                onPress={() => setSelectedServiceIndex(index)}
+                key={el.id}
+                name={el.name}
+                image={{ uri: el.category.image_url }}
+                isActive={selectedService?.id === el.id}
+                onPress={() => setSelectedService(el)}
               />
             );
           })}
@@ -71,80 +268,84 @@ function AppointmentPage() {
           consectetur adipisicing elit. Eos cumque molestias molestiae
           architecto quos nam qui distinctio facere eligendi?
         </ServiceSelectSubtitle>
-        <ServicesDetailWrapper>
-          <ServicesBadgeComponent
-            svg={PeopleIcon}
-            title="Público"
-            info="400 Pessoas"
-            handleClick={() => setAudienceModalVisible(true)}
-            isActive={audienceValue !== 0}
-          />
-          <ServicesBadgeComponent
-            svg={ClockIcon}
-            title="Duração"
-            info="180 Minutos"
-            handleClick={() => setTimeModalVisible(true)}
-            isActive={durationValue !== 0}
-          />
-          <ServicesBadgeComponent
-            svg={AmplifierIcon}
-            title="Equipamento Alugado"
-            info="+ R$ 100,00"
-            handleClick={() => setEquipmentModalVisible(true)}
-            isActive={equipmentValue}
-          />
+        <ServicesDetailWrapper
+          style={{
+            justifyContent:
+              selectedService.serviceAddons.length === 2
+                ? 'space-around'
+                : 'space-between',
+          }}
+        >
+          {selectedService.serviceAddons.map(addon => (
+            <ServicesBadgeComponent
+              key={addon.id}
+              svg={addonsRenderProps[addon.type].svg}
+              title={addonsRenderProps[addon.type].title}
+              info={addonsRenderProps[addon.type].info}
+              handleClick={() =>
+                addonsRenderProps[addon.type].handleClick(
+                  addon.max_value,
+                  addon.min_value,
+                ) as any
+              }
+              isActive={addonsRenderProps[addon.type].isActive || addon.default}
+            />
+          ))}
         </ServicesDetailWrapper>
 
         <AppointmentDateWrapper>
           <AppointmentDateLabel>Escolha a Data</AppointmentDateLabel>
-          <AndroidCalendarComponent value={null} setValue={() => {}} />
+          <AndroidCalendarComponent
+            value={null}
+            setValue={handleChangeDate}
+            onMonthChange={handleChangeDate}
+            disabledDates={unavailableDays}
+          />
         </AppointmentDateWrapper>
 
         <AppointmentDateLabel>Escolha o horário</AppointmentDateLabel>
         <AppointmentHourWrapper>
           <PeriodLabel>Manhã</PeriodLabel>
           <AvailableHourWrapper>
-            <AvailableHour>
-              <AvailableHourText>09:00</AvailableHourText>
-            </AvailableHour>
-            <AvailableHour isActive>
-              <AvailableHourText>11:30</AvailableHourText>
-            </AvailableHour>
-            <AvailableHour>
-              <AvailableHourText>12:00</AvailableHourText>
-            </AvailableHour>
+            {morningAvailability.map(el => (
+              <AvailableHour
+                key={el.hour}
+                isActive={selectedHourId === el.hour}
+                onPress={() => setSelectedHourId(el.hour)}
+              >
+                <AvailableHourText>{el.hourFormatted}</AvailableHourText>
+              </AvailableHour>
+            ))}
           </AvailableHourWrapper>
+
           <PeriodLabel>Tarde</PeriodLabel>
           <AvailableHourWrapper>
-            <AvailableHour>
-              <AvailableHourText>12:00</AvailableHourText>
-            </AvailableHour>
-            <AvailableHour>
-              <AvailableHourText>13:30</AvailableHourText>
-            </AvailableHour>
-            <AvailableHour>
-              <AvailableHourText>14:00</AvailableHourText>
-            </AvailableHour>
-            <AvailableHour>
-              <AvailableHourText>15:00</AvailableHourText>
-            </AvailableHour>
-            <AvailableHour>
-              <AvailableHourText>17:30</AvailableHourText>
-            </AvailableHour>
+            {afternoonAvailability.map(el => (
+              <AvailableHour
+                key={el.hour}
+                isActive={selectedHourId === el.hour}
+                onPress={() => setSelectedHourId(el.hour)}
+              >
+                <AvailableHourText>{el.hourFormatted}</AvailableHourText>
+              </AvailableHour>
+            ))}
           </AvailableHourWrapper>
           <PeriodLabel>Noite</PeriodLabel>
           <AvailableHourWrapper>
-            <AvailableHour>
-              <AvailableHourText>19:00</AvailableHourText>
-            </AvailableHour>
-            <AvailableHour>
-              <AvailableHourText>19:30</AvailableHourText>
-            </AvailableHour>
+            {nightAvailability.map(el => (
+              <AvailableHour
+                key={el.hour}
+                isActive={selectedHourId === el.hour}
+                onPress={() => setSelectedHourId(el.hour)}
+              >
+                <AvailableHourText>{el.hourFormatted}</AvailableHourText>
+              </AvailableHour>
+            ))}
           </AvailableHourWrapper>
         </AppointmentHourWrapper>
 
         <NextButtonWrapper>
-          <ActionButton>Próximo</ActionButton>
+          <ActionButton onPress={handleCreateAppointment}>Agendar</ActionButton>
         </NextButtonWrapper>
       </HeaderSinglePage>
 
@@ -156,8 +357,8 @@ function AppointmentPage() {
         title="Informe a duração desejada para a apresentação"
         value={durationValue}
         setSliderValue={setDurationValue}
-        sliderMaxValue={400}
-        sliderMinValue={20}
+        sliderMaxValue={durationMaxValue}
+        sliderMinValue={durationMinValue}
       />
       <NumberSliderModal
         visible={audienceModalVisible}
@@ -166,8 +367,8 @@ function AppointmentPage() {
         title="Informe a quantidade de pessoas para a apresentação"
         value={audienceValue}
         setSliderValue={setAudienceValue}
-        sliderMaxValue={400}
-        sliderMinValue={20}
+        sliderMaxValue={audienceMaxValue}
+        sliderMinValue={audienceMinValue}
         label="Pessoas"
       />
       <ConfirmationModal
@@ -176,6 +377,13 @@ function AppointmentPage() {
         svg={AmplifierIcon}
         title="O equipamento de som será alugado pelo próprio artista?"
         setValue={setEquipmentValue}
+      />
+      <ConfirmationModal
+        visible={ambientModalVisible}
+        setVisible={setAmbientModalVisible}
+        svg={ParkIcon}
+        title="O ambiente da apresentação será um ambiente aberto?"
+        setValue={setAmbientValue}
       />
     </Wrapper>
   );

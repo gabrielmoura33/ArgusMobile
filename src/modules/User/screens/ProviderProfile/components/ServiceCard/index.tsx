@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import casamentoPng from '../../../../../../assets/images/casamento.png';
+import { Service } from '../../../../../../shared/entities/Services';
 import {
   JobDescription,
   Container,
@@ -10,21 +10,18 @@ import {
   ProviderName,
 } from './styles';
 
-interface ServiceCardProps {}
+interface ServiceCardProps {
+  service: Service;
+}
 
-function ServiceCard() {
+function ServiceCard({ service }: ServiceCardProps) {
   return (
     <Container>
-      <ServiceImage source={casamentoPng} />
+      <ServiceImage source={{ uri: service.category.image_url }} />
       <ContentContainer>
         <ProviderInfoWrapper>
-          <ProviderName>Casamento</ProviderName>
-          <JobDescription>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In sed
-            bibendum nisi. Nam sed ligula eget felis euismod rutrum et quis leo.
-            Curabitur dictum luctus sollicitudin. Nullam at risus non lectus
-            suscipit sagittis.
-          </JobDescription>
+          <ProviderName>{service.name}</ProviderName>
+          <JobDescription>{service.description}</JobDescription>
         </ProviderInfoWrapper>
       </ContentContainer>
     </Container>

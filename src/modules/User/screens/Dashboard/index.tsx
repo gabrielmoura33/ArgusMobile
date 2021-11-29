@@ -3,10 +3,13 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, RefreshControl } from 'react-native';
 
 import fabiUserAvatar from '../../../../assets/IMG_0384.jpeg';
+import { Provider } from '../../../../shared/entities/Provider';
 import { useAuth } from '../../../../shared/hooks/auth';
+import { useLoader } from '../../../../shared/hooks/loading.context';
 import ArgusProviderCard from '../../components/ArgusProviderCard';
 import CategoryComponent from '../../components/CategoryComponent';
 import RelatedProviderCard from '../../components/RelatedProviderCard';
+import { useProviderContext } from '../../hooks/providers.context';
 import SkeletonDashboard from '../../skeleton/SkeletonDashboard';
 import {
   Container,
@@ -35,7 +38,9 @@ const delay = 3;
 function Dashboard() {
   const { user } = useAuth();
   const containerRef = useRef(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { isLoading, setLoading } = useLoader();
+  const { providers, fetchProvidersApi, setSelectedProvider } =
+    useProviderContext();
   const navigation = useNavigation();
 
   const handleNavigate = useCallback(
@@ -47,13 +52,10 @@ function Dashboard() {
   useScrollToTop(containerRef);
 
   useEffect(() => {
-    const timer1 = setTimeout(() => setLoading(false), delay * 1000);
+    fetchProvidersApi({ _limit: 5 });
+  }, [fetchProvidersApi]);
 
-    return () => {
-      clearTimeout(timer1);
-    };
-  }, []);
-  if (loading) return <SkeletonDashboard />;
+  if (isLoading) return <SkeletonDashboard />;
   return (
     <Container ref={containerRef} showsVerticalScrollIndicator={false}>
       <Header>
@@ -109,10 +111,14 @@ function Dashboard() {
         <Label size="medium">Artistas Relacionados</Label>
       </LabelWrapper>
       <RelatedProviderList>
-        {userlist.map(el => (
-          <RelatedProviderCardWrapper key={el}>
+        {providers.map(el => (
+          <RelatedProviderCardWrapper key={el.id}>
             <RelatedProviderCard
-              onPress={() => handleNavigate('ProviderProfile')}
+              provider={el}
+              onPress={() => {
+                setSelectedProvider(el);
+                return handleNavigate('ProviderProfile');
+              }}
             />
           </RelatedProviderCardWrapper>
         ))}

@@ -8,12 +8,16 @@ import { Container, CalendarHeaderBadge } from './styles';
 
 interface AndroidCalendarComponentProps {
   value: any;
-  setValue: () => void;
+  setValue: any;
+  disabledDates?: Date[];
+  onMonthChange?: any;
 }
 
 function AndroidCalendarComponent({
   value,
   setValue,
+  onMonthChange,
+  disabledDates,
 }: AndroidCalendarComponentProps) {
   const customDayHeaderStylesCallback = ({
     dayOfWeek,
@@ -44,7 +48,7 @@ function AndroidCalendarComponent({
     <Container>
       <CalendarHeaderBadge />
       <CalendarPicker
-        onDateChange={() => {}}
+        onDateChange={setValue}
         weekdays={['D', 'S', 'T', 'Q', 'Q', 'S', 'S']}
         months={[
           'Janeiro',
@@ -77,26 +81,10 @@ function AndroidCalendarComponent({
         dayShape="square"
         selectedDayTextColor="#FFF"
         scaleFactor={375}
-        disabledDates={[
-          new Date(2021, 8, 1),
-          new Date(2021, 8, 2),
-          new Date(2021, 8, 4),
-          new Date(2021, 8, 5),
-          new Date(2021, 8, 7),
-          new Date(2021, 8, 8),
-          new Date(2021, 8, 9),
-          new Date(2021, 8, 13),
-          new Date(2021, 8, 15),
-          new Date(2021, 8, 17),
-          new Date(2021, 8, 19),
-          new Date(2021, 8, 21),
-          new Date(2021, 8, 23),
-          new Date(2021, 8, 25),
-          new Date(2021, 8, 26),
-          new Date(2021, 8, 30),
-        ]}
+        disabledDates={disabledDates}
         customDayHeaderStyles={customDayHeaderStylesCallback as any}
         disabledDatesTextStyle={{ color: '#666360' }}
+        onMonthChange={onMonthChange}
       />
     </Container>
   );

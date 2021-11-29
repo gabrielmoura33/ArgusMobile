@@ -29,7 +29,7 @@ export const JobDescription = styled.Text.attrs({
   font-family: ${props => props.theme.fonts.RobotoMedium};
   font-size: 12px;
   /* width: ${RFValue(180)}px; */
-  width: 17%;
+  max-width: 200px;
   text-align: justify;
   margin-top: 1%;
 
