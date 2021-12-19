@@ -165,6 +165,7 @@ function AppointmentPage() {
           },
         );
         const { data } = response;
+
         setAvailableHours(data.filter((el: DayAvailability) => el.available));
       } catch (error) {
         console.log(error);

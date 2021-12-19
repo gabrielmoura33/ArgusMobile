@@ -7,6 +7,7 @@ import { StatusBar } from 'react-native';
 import { ThemeProvider } from 'styled-components';
 
 import theme from './src/global/styles/theme';
+import CardRegister from './src/modules/User/screens/Payment/CardRegister';
 import { AppProvider } from './src/shared/hooks';
 import Routes from './src/shared/routes';
 

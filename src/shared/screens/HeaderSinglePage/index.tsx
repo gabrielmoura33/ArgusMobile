@@ -9,9 +9,9 @@ interface HeaderSingleProps {
 }
 
 function HeaderSinglePage({ children, title }: HeaderSingleProps) {
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   function handleGoBack() {
-    return navigation.goBack();
+    //   return navigation.goBack();
   }
   return (
     <Container>
