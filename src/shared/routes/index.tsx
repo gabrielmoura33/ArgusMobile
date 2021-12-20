@@ -8,6 +8,7 @@ import UserBottomTabNavigator from '../../modules/User/routes/navigation/user_ta
 import UserOrganizerRoutes from '../../modules/User/routes/user.organizer.routes';
 import { UserAuthRoutes } from '../../modules/User/routes/user_auth.routes';
 import CardRegister from '../../modules/User/screens/Payment/CardRegister';
+import CheckoutPage from '../../modules/User/screens/Payment/Checkout';
 import { useAccess } from '../hooks/access';
 import { useAuth } from '../hooks/auth';
 import NoConnection from '../screens/NoConnection';
@@ -19,34 +20,34 @@ const Routes: React.FC = () => {
   const { isFirstLaunch, appState } = useAccess();
   const netInfo = useNetInfo();
 
-  return <CardRegister />;
-  // if (loading) {
-  //   return (
-  //     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-  //       <ActivityIndicator size="large" color={theme.colors.Neutral100} />
-  //     </View>
-  //   );
-  // }
+  // return <CheckoutPage />;
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={theme.colors.Neutral100} />
+      </View>
+    );
+  }
 
-  // if (netInfo.isConnected === false) return <NoConnection />;
+  if (netInfo.isConnected === false) return <NoConnection />;
 
-  // if (isFirstLaunch === true && !user.name && appState === 'default') {
-  //   return <OnboardingRoutes />;
-  // }
+  if (isFirstLaunch === true && !user.name && appState === 'default') {
+    return <OnboardingRoutes />;
+  }
 
-  // if (user && user.signed) {
-  //   return <UserOrganizerRoutes />;
-  // }
+  if (user && user.signed) {
+    return <UserOrganizerRoutes />;
+  }
 
-  // switch (appState) {
-  //   case 'provider':
-  //     return <ProviderAuthRoutes />;
-  //   case 'user':
-  //     return <UserAuthRoutes />;
-  //   case 'default':
-  //   default:
-  //     return <ChooseStateRoutes />;
-  // }
+  switch (appState) {
+    case 'provider':
+      return <ProviderAuthRoutes />;
+    case 'user':
+      return <UserAuthRoutes />;
+    case 'default':
+    default:
+      return <ChooseStateRoutes />;
+  }
 };
 
 export default Routes;

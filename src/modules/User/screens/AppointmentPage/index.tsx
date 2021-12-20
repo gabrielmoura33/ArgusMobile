@@ -94,7 +94,10 @@ function AppointmentPage() {
     EQUIPMENT: {
       svg: AmplifierIcon,
       title: 'Equipamento Alugado',
-      info: `+ R$ 100,00`,
+      info: `+ R$ ${
+        selectedService.serviceAddons?.find(el => el.type === 'EQUIPMENT')
+          ?.price
+      },00`,
       handleClick: () => setEquipmentModalVisible(true),
       isActive: equipmentValue,
       price: 0,
@@ -102,7 +105,9 @@ function AppointmentPage() {
     AMBIENT: {
       svg: ParkIcon,
       title: 'Ambiente Aberto',
-      info: `+ R$ 100,00`,
+      info: `+ R$ ${
+        selectedService.serviceAddons?.find(el => el.type === 'AMBIENT')?.price
+      },00`,
       handleClick: () => setAmbientModalVisible(true),
       isActive: ambientValue,
       price: 0,
@@ -204,40 +209,60 @@ function AppointmentPage() {
       }));
   }, [availableHours]);
 
-  const handleCreateAppointment = useCallback(async () => {
+  const calculateFinalPrice = () => {
+    const { serviceAddons, price: totalPrice } = selectedService;
+
+    const ambientPrice = ambientValue
+      ? serviceAddons.find(el => el.type === 'AMBIENT')?.price
+      : 0;
+    const equipmentPrice = equipmentValue
+      ? serviceAddons.find(el => el.type === 'EQUIPMENT')?.price
+      : 0;
+
+    return totalPrice + (ambientPrice || 0) + (equipmentPrice || 0);
+  };
+  const handleCreateAppointment = async () => {
     try {
       const date = new Date(year, month - 1, day);
 
       date.setHours(selectedHourId);
       date.setMinutes(0);
 
-      await api.post('/api/v1/appointments', {
+      const finalPrice = calculateFinalPrice();
+      const response = await api.post('/api/v1/appointments', {
         provider_id: selectedProvider.id,
         date,
         service_id: selectedService.id,
-        scheduled_time: 60,
-        open_environment: true,
-        rented_equipment: true,
+        scheduled_time: durationValue,
+        open_environment: ambientValue,
+        rented_equipment: equipmentValue,
+        final_price: finalPrice,
       });
 
-      navigate('AppointmentCreated', { date: date.getTime() });
-    } catch (err) {
-      console.log(err);
+      const { data } = response;
+      const paymentInfo = {
+        appointmentId: data.id,
+        finalPrice,
+        servicePrice: selectedService.price,
+        serviceAddons: selectedService.serviceAddons,
+        open_environment: ambientValue,
+        rented_equipment: equipmentValue,
+        date: date.getTime(),
+        serviceName: selectedService.name,
+        final_price: finalPrice,
+      };
 
+      navigate('CheckoutPage', paymentInfo);
+    } catch (err) {
       Alert.alert(
         'Erro ao criar agendamento',
         'Ocorreu ao tentar criar o agendamento, tente novamente',
       );
     }
-  }, [
-    day,
-    month,
-    navigate,
-    selectedHourId,
-    selectedProvider.id,
-    selectedService,
-    year,
-  ]);
+  };
+  // useEffect(() => {
+  //   console.log({ equipmentValue, ambientValue });
+  // }, [equipmentValue, ambientValue]);
   return (
     <Wrapper showsVerticalScrollIndicator={false}>
       <HeaderSinglePage title="Agendamento">

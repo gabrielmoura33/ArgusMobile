@@ -1,5 +1,6 @@
 /* eslint-disable global-require */
 import { NavigationContainer } from '@react-navigation/native';
+import { StripeProvider } from '@stripe/stripe-react-native';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
@@ -38,13 +39,18 @@ export default function App() {
   return (
     <NavigationContainer>
       <AppProvider>
-        <ThemeProvider theme={theme}>
-          <StatusBar
-            barStyle="light-content"
-            backgroundColor={theme.colors.Secondary}
-          />
-          <Routes />
-        </ThemeProvider>
+        <StripeProvider
+          publishableKey="pk_test_51K0yhXCuchXickzYuxs6GY4qztkcCwv4UffS29AdfzbMy8M7ZlB4QwoMjxxhjMO7Cp8kv72fuAcV0oLy74ksY44c00jXci85qQ"
+          merchantIdentifier="gabrielmourajs@gmail.com"
+        >
+          <ThemeProvider theme={theme}>
+            <StatusBar
+              barStyle="light-content"
+              backgroundColor={theme.colors.Secondary}
+            />
+            <Routes />
+          </ThemeProvider>
+        </StripeProvider>
       </AppProvider>
     </NavigationContainer>
   );

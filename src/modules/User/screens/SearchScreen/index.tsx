@@ -8,7 +8,12 @@ import { Container } from './styles';
 function SearchScreen() {
   return (
     <Container>
-      <Text style={{ color: '#FFF' }}>SearchScreen</Text>
+      {/* <SearchInputWrapper>
+        <SearchInputContainer>
+          <SearchIcon></SearchIcon>
+          <SearchInput placeholder="Pesquisar"></SearchInput>
+        </SearchInputContainer>
+      </SearchInputWrapper> */}
     </Container>
   );
 }
