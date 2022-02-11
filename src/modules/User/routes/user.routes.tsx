@@ -6,6 +6,7 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import theme from '../../../global/styles/theme';
+import CommonGroupScreen from '../../../shared/screens/CommonGroupScreen';
 import CategoryList from '../screens/CategoryList';
 import Dashboard from '../screens/Dashboard';
 import Profile from '../screens/ProfileScreen';
@@ -27,6 +28,7 @@ const UserRoutes: React.FC = () => (
   >
     <User.Screen name="Dashboard" component={Dashboard} />
     <User.Screen name="SearchScreen" component={SearchScreen} />
+    <User.Screen name="SearchResult" component={CommonGroupScreen} />
     <User.Screen name="ProfileStack" component={Profile} />
     <User.Screen name="CategoryList" component={CategoryList} />
   </User.Navigator>

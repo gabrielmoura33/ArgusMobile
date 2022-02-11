@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ArgusProviderContextProvider } from '../../modules/User/hooks/argus_providers.context';
 import { ProviderContextProvider } from '../../modules/User/hooks/providers.context';
 import { AccessProvider } from './access';
 import { AuthProvider } from './auth';
@@ -9,7 +10,9 @@ const AppProvider: React.FC = ({ children }) => (
   <LoaderProvider>
     <AccessProvider>
       <AuthProvider>
-        <ProviderContextProvider>{children}</ProviderContextProvider>
+        <ArgusProviderContextProvider>
+          <ProviderContextProvider>{children}</ProviderContextProvider>
+        </ArgusProviderContextProvider>
       </AuthProvider>
     </AccessProvider>
   </LoaderProvider>

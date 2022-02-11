@@ -16,11 +16,14 @@ export const Container = styled(RectButton)<ActionButtonProps>`
   ${props =>
     props.isSecondary &&
     css`
-      background-color: #db4437;
+      border-width: 1px;
+      border-style: solid;
+      border-color: ${({ theme }) => theme.colors.primary};
+      background: ${({ theme }) => theme.colors.DarkerBlue};
     `}
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<ActionButtonProps>`
   font-family: ${({ theme }) => theme.fonts.GothicA1};
   font-weight: bold;
   font-size: ${RFValue(14)}px;
@@ -28,4 +31,10 @@ export const Title = styled.Text`
   text-align: center;
   color: ${({ theme }) => theme.colors.Neutral100};
   letter-spacing: ${RFValue(3)}px;
+
+  ${props =>
+    props.isSecondary &&
+    css`
+      color: ${({ theme }) => theme.colors.primary};
+    `}
 `;

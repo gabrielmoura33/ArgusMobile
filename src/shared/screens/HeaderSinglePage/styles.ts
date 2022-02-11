@@ -13,7 +13,7 @@ export const Header = styled.View`
   align-items: center;
   justify-content: center;
   position: relative;
-  margin-bottom: ${RFValue(62)}px;
+  margin-bottom: ${RFValue(20)}px;
 `;
 
 export const BackButton = styled(BorderlessButton)`

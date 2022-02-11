@@ -9,6 +9,7 @@ import { useLoader } from '../../../../shared/hooks/loading.context';
 import ArgusProviderCard from '../../components/ArgusProviderCard';
 import CategoryComponent from '../../components/CategoryComponent';
 import RelatedProviderCard from '../../components/RelatedProviderCard';
+import { useArgusProviderContext } from '../../hooks/argus_providers.context';
 import { useProviderContext } from '../../hooks/providers.context';
 import SkeletonDashboard from '../../skeleton/SkeletonDashboard';
 import {
@@ -41,6 +42,8 @@ function Dashboard() {
   const { isLoading, setLoading } = useLoader();
   const { providers, fetchProvidersApi, setSelectedProvider } =
     useProviderContext();
+
+  const { argusProviders, fetchArgusProvidersApi } = useArgusProviderContext();
   const navigation = useNavigation();
 
   const handleNavigate = useCallback(
@@ -53,7 +56,8 @@ function Dashboard() {
 
   useEffect(() => {
     fetchProvidersApi({ _limit: 5 });
-  }, [fetchProvidersApi]);
+    fetchArgusProvidersApi({ _limit: 5 });
+  }, [fetchArgusProvidersApi, fetchProvidersApi]);
 
   if (isLoading) return <SkeletonDashboard />;
   return (
@@ -97,11 +101,17 @@ function Dashboard() {
         <SeeMoreLabel>Veja mais</SeeMoreLabel>
       </LabelWrapper>
       <ArgusProviderList
-        data={userlist}
-        keyExtractor={item => item}
-        renderItem={() => (
+        data={argusProviders}
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
           <ArgusProviderCardWrapper>
-            <ArgusProviderCard />
+            <ArgusProviderCard
+              item={item}
+              onClick={() => {
+                setSelectedProvider(item);
+                return handleNavigate('ProviderProfile');
+              }}
+            />
           </ArgusProviderCardWrapper>
         )}
         showsHorizontalScrollIndicator={false}

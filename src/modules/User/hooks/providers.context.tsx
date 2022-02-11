@@ -9,7 +9,6 @@ import React, {
 
 import { IFilters } from '../../../shared/@types/IFilters';
 import { Provider } from '../../../shared/entities/Provider';
-import { Statistics } from '../../../shared/entities/Statistics';
 import { useLoader } from '../../../shared/hooks/loading.context';
 import { ProviderService } from '../../../shared/services/Provider.service';
 
@@ -29,7 +28,7 @@ const ProviderContextContext = createContext<ProviderContextContextData>(
 const ProviderContextProvider: React.FC = ({ children }) => {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [selectedProvider, setSelectedProvider] = useState<Provider>();
-  const [pages, setPages] = useState(1);
+  // const [pages, setPages] = useState(1);
   const { setLoading } = useLoader();
 
   const fetchProvidersApi = useCallback(

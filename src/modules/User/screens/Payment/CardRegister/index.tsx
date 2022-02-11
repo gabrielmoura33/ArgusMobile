@@ -33,8 +33,6 @@ const CardRegister: React.FC = () => {
         Alert.alert('Preencha todos os campos para continuar');
         return;
       }
-
-      console.log(card);
     } catch (error) {
       console.log(error);
     }

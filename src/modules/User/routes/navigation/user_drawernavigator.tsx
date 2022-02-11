@@ -68,7 +68,7 @@ const UserDrawerNavigator: React.FC = () => {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="UserWallet"
         component={ProfileScreen}
         options={{
@@ -81,7 +81,7 @@ const UserDrawerNavigator: React.FC = () => {
             />
           ),
         }}
-      />
+      /> */}
     </Drawer.Navigator>
   );
 };

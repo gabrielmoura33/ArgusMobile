@@ -12,7 +12,7 @@ interface ActionButtonProps extends RectButtonProps {
 function ActionButton({ children, ...rest }: ActionButtonProps) {
   return (
     <Container {...rest}>
-      <Title>{children}</Title>
+      <Title isSecondary={rest.isSecondary}>{children}</Title>
     </Container>
   );
 }

@@ -35,7 +35,7 @@ function Favorites() {
                 </Animated.View>
               )}
             >
-              <RelatedProviderCard />
+              {/* <RelatedProviderCard /> */}
             </Swipeable>
           </CardWrapper>
         </Container>

@@ -5,4 +5,5 @@ export interface IFilters<T> {
   _order?: 'asc' | 'desc';
   _count?: boolean;
   _search?: string;
+  [key: string]: any;
 }

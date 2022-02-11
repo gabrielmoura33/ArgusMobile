@@ -42,6 +42,7 @@ export const ProviderAvatarIndicator = styled.View<AvatarProps>`
 
 export const ContentWrapper = styled.View`
   padding: 6% 0 0 5%;
+  opacity: 1;
 `;
 export const ProviderName = styled.Text`
   font-family: ${({ theme }) => theme.fonts.RobotoSlabMedium};
