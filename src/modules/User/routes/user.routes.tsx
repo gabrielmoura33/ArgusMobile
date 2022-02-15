@@ -28,7 +28,11 @@ const UserRoutes: React.FC = () => (
   >
     <User.Screen name="Dashboard" component={Dashboard} />
     <User.Screen name="SearchScreen" component={SearchScreen} />
-    <User.Screen name="SearchResult" component={CommonGroupScreen} />
+    <User.Screen
+      name="SearchResult"
+      component={CommonGroupScreen}
+      options={{ cardStyleInterpolator: CardStyleInterpolators.forNoAnimation }}
+    />
     <User.Screen name="ProfileStack" component={Profile} />
     <User.Screen name="CategoryList" component={CategoryList} />
   </User.Navigator>

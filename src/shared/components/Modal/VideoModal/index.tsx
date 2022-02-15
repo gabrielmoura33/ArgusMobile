@@ -32,7 +32,7 @@ function VideoModal({ visible, setVisible, play }: VideoModalProps) {
   // }, [play]);
   return (
     <Modal animationType="fade" transparent visible={visible}>
-      <Container onLongPress={handleCloseModal}>
+      <Container onPress={handleCloseModal}>
         <ModalContent>
           <Video
             source={{

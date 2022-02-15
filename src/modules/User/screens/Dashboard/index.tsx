@@ -1,11 +1,9 @@
 import { useNavigation, useScrollToTop } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View, RefreshControl } from 'react-native';
 
-import fabiUserAvatar from '../../../../assets/IMG_0384.jpeg';
-import { Provider } from '../../../../shared/entities/Provider';
 import { useAuth } from '../../../../shared/hooks/auth';
 import { useLoader } from '../../../../shared/hooks/loading.context';
+import { ProviderService } from '../../../../shared/services/Provider.service';
 import ArgusProviderCard from '../../components/ArgusProviderCard';
 import CategoryComponent from '../../components/CategoryComponent';
 import RelatedProviderCard from '../../components/RelatedProviderCard';
@@ -38,6 +36,7 @@ const delay = 3;
 
 function Dashboard() {
   const { user } = useAuth();
+  const { navigate } = useNavigation();
   const containerRef = useRef(null);
   const { isLoading, setLoading } = useLoader();
   const { providers, fetchProvidersApi, setSelectedProvider } =
@@ -52,6 +51,21 @@ function Dashboard() {
     },
     [navigation],
   );
+
+  const handleFilterByCategory = async (category: string) => {
+    try {
+      setLoading(true);
+      const response = await ProviderService.fetchProviders({
+        category,
+      });
+      setLoading(false);
+      const providersList = response.rows;
+
+      navigate('SearchResult', { providers: providersList, name: category });
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useScrollToTop(containerRef);
 
   useEffect(() => {
@@ -83,7 +97,7 @@ function Dashboard() {
       <LabelWrapper>
         <Label>Categorias</Label>
         <ButtonWrapper onPress={() => handleNavigate('CategoryList')}>
-          <SeeMoreLabel>Veja mais</SeeMoreLabel>
+          {/* <SeeMoreLabel>Veja mais</SeeMoreLabel> */}
         </ButtonWrapper>
       </LabelWrapper>
       <CategoryList
@@ -91,14 +105,18 @@ function Dashboard() {
         data={categoryList}
         keyExtractor={item => item.name}
         renderItem={({ item }) => (
-          <CategoryComponent name={item.name} source={item.image} />
+          <CategoryComponent
+            name={item.name}
+            source={item.image}
+            onPress={() => handleFilterByCategory(item.name)}
+          />
         )}
         showsHorizontalScrollIndicator={false}
         horizontal
       />
       <LabelWrapper>
         <Label size="medium">Artistas Argus</Label>
-        <SeeMoreLabel>Veja mais</SeeMoreLabel>
+        {/* <SeeMoreLabel>Veja mais</SeeMoreLabel> */}
       </LabelWrapper>
       <ArgusProviderList
         data={argusProviders}

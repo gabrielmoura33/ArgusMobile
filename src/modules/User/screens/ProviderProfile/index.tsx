@@ -1,11 +1,17 @@
-import { useNavigation, useScrollToTop } from '@react-navigation/native';
-import React, { useCallback, useState } from 'react';
-import { FlatList } from 'react-native';
+import {
+  useNavigation,
+  useRoute,
+  useScrollToTop,
+} from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FlatList, Share } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import ShareIcon from '../../../../assets/icons/share.svg';
 import providerBackgroundSrc from '../../../../assets/tmp/background-provider.png';
+import LoadingComponent from '../../../../shared/components/LoadingComponent';
 import VideoModal from '../../../../shared/components/Modal/VideoModal';
+import { ProviderService } from '../../../../shared/services/Provider.service';
 import { useProviderContext } from '../../hooks/providers.context';
 import { ProviderDetailCard } from './components/ProviderDetailCard';
 import { ServiceCard } from './components/ServiceCard';
@@ -23,9 +29,17 @@ import {
   IconButtonCustom,
 } from './styles';
 
+interface RouteProps {
+  params: {
+    id?: string;
+  };
+}
 function ProviderProfile() {
+  const { params }: any = useRoute();
+
+  const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { selectedProvider } = useProviderContext();
+  const { selectedProvider, setSelectedProvider } = useProviderContext();
   const navigation = useNavigation();
   const handleNavigate = useCallback(
     (routeName: string) => {
@@ -34,6 +48,33 @@ function ProviderProfile() {
     [navigation],
   );
 
+  const handleFetchProvider = useCallback(async () => {
+    try {
+      const response = await ProviderService.fetchProviders({ id: params?.id });
+      const provider = response.rows[0];
+      setSelectedProvider(provider);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [params?.id, setSelectedProvider]);
+
+  const handleShare = useCallback(() => {
+    Share.share({
+      message: `Clique aqui para verificar o perfil do prestador ${selectedProvider.name} \n exp://192.168.18.3:19000/--/appointment-created?id=${selectedProvider.id}`,
+      title: 'Compartilhar',
+    });
+  }, [selectedProvider.id, selectedProvider.name]);
+
+  useEffect(() => {
+    if (selectedProvider && selectedProvider.id) {
+      setLoading(false);
+      return;
+    }
+    handleFetchProvider();
+  }, [handleFetchProvider, selectedProvider]);
+
+  if (loading) return <LoadingComponent />;
   return (
     <Wrapper>
       <BackgroundImage source={providerBackgroundSrc} />
@@ -67,7 +108,7 @@ function ProviderProfile() {
             >
               Contratar
             </ActionButtonCustom>
-            <IconButtonCustom svg={ShareIcon} />
+            <IconButtonCustom svg={ShareIcon} onPress={handleShare} />
           </ButtonsWrapper>
         </ServicesWrapper>
       </Container>

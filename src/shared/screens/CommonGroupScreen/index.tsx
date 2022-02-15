@@ -14,18 +14,16 @@ const CommonGroupScreen: React.FC = () => {
   const { params } = useRoute();
 
   const { providers, name } = params as RouteParams;
-  useEffect(() => {
-    console.log(providers);
-  }, []);
+
   return (
     <HeaderSinglePage title={name}>
       <Container
         data={providers}
         numColumns={2}
-        keyExtractor={(item: Provider) => String(item.id)}
-        renderItem={() => (
+        keyExtractor={item => String(item.id)}
+        renderItem={({ item }) => (
           <CardWrapper>
-            <Card />
+            <Card item={item} />
           </CardWrapper>
         )}
       />

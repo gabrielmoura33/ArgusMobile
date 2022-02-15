@@ -4,7 +4,7 @@ import formatura from '../../../../../assets/images/formatura.png';
 
 const categoryList = [
   { name: 'Formatura', image: formatura },
-  { name: 'Casamentos', image: casamento },
+  { name: 'Casamento', image: casamento },
   { name: 'Evento Corporativo', image: corporativo },
 ];
 

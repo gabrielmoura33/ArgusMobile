@@ -2,6 +2,7 @@
   "name": "Argus",
   "displayName": "Argus",
   "expo": {
+    "scheme": "argus",
     "name": "Argus",
     "slug": "argus",
     "version": "1.0.0",
@@ -12,9 +13,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#E06714"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "android": {
       "package": "com.gabriel.moura.argus",
       "config": {

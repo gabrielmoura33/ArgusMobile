@@ -1,14 +1,15 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import { RFValue } from 'react-native-responsive-fontsize';
 
-import ExploreIcon from '../../../../assets/icons/explore.svg';
-import GiftIcon from '../../../../assets/icons/gift.svg';
+// import ExploreIcon from '../../../../assets/icons/explore.svg';
+// import GiftIcon from '../../../../assets/icons/gift.svg';
 import UserProfileIcon from '../../../../assets/icons/userprofile.svg';
 import theme from '../../../../global/styles/theme';
 import ProfileScreen from '../../screens/ProfileScreen';
-import SearchScreen from '../../screens/SearchScreen';
+// import SearchScreen from '../../screens/SearchScreen';
+// import UserBottomTabNavigator from './user_tabnavigator';
 
 // import { Container } from './styles';
 const Drawer = createDrawerNavigator();
@@ -54,9 +55,9 @@ const UserDrawerNavigator: React.FC = () => {
           ),
         }}
       />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name="UserExplore"
-        component={ProfileScreen}
+        component={UserBottomTabNavigator}
         options={{
           title: 'Explorar',
           drawerIcon: ({ focused, size }) => (
@@ -67,7 +68,7 @@ const UserDrawerNavigator: React.FC = () => {
             />
           ),
         }}
-      />
+      /> */}
       {/* <Drawer.Screen
         name="UserWallet"
         component={ProfileScreen}

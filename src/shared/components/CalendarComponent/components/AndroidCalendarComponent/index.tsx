@@ -24,7 +24,7 @@ function AndroidCalendarComponent({
   }: {
     dayOfWeek: number;
   }) => {
-    if (dayOfWeek === 7 - moment(new Date()).day()) {
+    if (dayOfWeek === moment().day()) {
       return {
         style: {
           border: 0,
@@ -85,6 +85,7 @@ function AndroidCalendarComponent({
         customDayHeaderStyles={customDayHeaderStylesCallback as any}
         disabledDatesTextStyle={{ color: '#666360' }}
         onMonthChange={onMonthChange}
+        todayBackgroundColor="#181A20"
       />
     </Container>
   );

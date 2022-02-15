@@ -1,6 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { SvgProps } from 'react-native-svg';
+import React, { useState } from 'react';
 
 import CasamentoSVG from '../../../../assets/images/search_buttons/casamento.svg';
 import SVG1 from '../../../../assets/images/search_buttons/svg1.svg';
@@ -8,6 +7,7 @@ import SVG2 from '../../../../assets/images/search_buttons/svg2.svg';
 import SVG3 from '../../../../assets/images/search_buttons/svg3.svg';
 import SVG4 from '../../../../assets/images/search_buttons/svg4.svg';
 import SVG5 from '../../../../assets/images/search_buttons/svg5.svg';
+import LoadingComponent from '../../../../shared/components/LoadingComponent';
 import { ProviderService } from '../../../../shared/services/Provider.service';
 import {
   Container,
@@ -25,17 +25,23 @@ import {
 // interface SearchScreenProps {}
 
 function SearchScreen() {
+  const [loading, setLoading] = useState(false);
   const { navigate } = useNavigation();
   const handleFilterByCategory = async (category: string) => {
     try {
-      const providers = await ProviderService.fetchProviders({
+      setLoading(true);
+      const response = await ProviderService.fetchProviders({
         category,
       });
+      setLoading(false);
+      const providers = response.rows;
+
       navigate('SearchResult', { providers, name: category });
     } catch (error) {
       console.log(error);
     }
   };
+  if (loading) return <LoadingComponent />;
   return (
     <Container>
       <SearchInputWrapper>
